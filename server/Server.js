@@ -6,6 +6,25 @@ let io = require("socket.io")(http,{
     cors: { origin: "*"}
 })
 
+
+
+class Player
+{
+    playerScore = 0;
+
+    playerConnected = true;
+    
+    constructor(username, socketid) 
+    {
+            this.username = username;
+            this.socketid = socketid;        
+    }
+
+}
+
+
+let gameStarted = false;
+
 let registeredUsers = [];
 
 
@@ -14,7 +33,10 @@ io.on("connection", function(socket)
     
     console.log("Connection Made")
 
-    socket.on("RegisterUser", function(userdata)
+
+    if(gameStarted == false)
+    {
+        socket.on("RegisterUser", function(userdata)
     {
 
         for (let index = 0; index < registeredUsers.length; index++) 
@@ -30,6 +52,9 @@ io.on("connection", function(socket)
         console.log("User " + userdata + " connected. With socket id " + socket.id);
         registeredUsers.push(userdata);
     });
+
+    }
+    
 
     socket.on("disconnect", function() 
     {    
