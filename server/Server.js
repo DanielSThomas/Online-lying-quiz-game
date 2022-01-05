@@ -9,19 +9,31 @@ let io = require("socket.io")(http,{
 let registeredUsers = [];
 
 
-io.on("connection", function(socket){
+io.on("connection", function(socket)
+{
     
     console.log("Connection Made")
 
     socket.on("RegisterUser", function(userdata)
     {
-        console.log("User " + userdata + " connected");
+
+        for (let index = 0; index < registeredUsers.length; index++) 
+        {
+            if(userdata == registeredUsers[index])
+            {
+                console.log("username " + userdata + " is already taken");
+                socket.disconnect();
+                return;
+            }
+        }
+
+        console.log("User " + userdata + " connected. With socket id " + socket.id);
         registeredUsers.push(userdata);
     });
 
-    socket.on('disconnect', function() 
+    socket.on("disconnect", function() 
     {    
-        console.log('user disconnected');  
+        console.log("user with id " + socket.id + " disconnected");  
     });
     
   
