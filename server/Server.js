@@ -34,31 +34,54 @@ io.on("connection", function(socket)
     console.log("Connection Made")
 
 
-    if(gameStarted == false)
-    {
         socket.on("RegisterUser", function(userdata)
     {
-
-        for (let index = 0; index < registeredUsers.length; index++) 
+        if(gameStarted == false)
         {
-            if(userdata == registeredUsers[index])
+            for (let index = 0; index < registeredUsers.length; index++) 
             {
-                console.log("username " + userdata + " is already taken");
-                socket.disconnect();
-                return;
+                if(userdata == registeredUsers[index].username)
+                {
+                    console.log("username " + userdata + " is already taken");
+                    socket.disconnect();
+                    return;
+                }
             }
+            console.log("User " + userdata + " connected. With socket id " + socket.id);
+            let player = new Player(userdata,socket.id)
+            registeredUsers.push(player);
+
+
+            console.log("Current lobby---------------")
+            for (let index = 0; index < registeredUsers.length; index++) 
+            {
+                console.log(registeredUsers[index].username)
+                console.log(registeredUsers[index].socketid)
+            }
+       
         }
 
-        console.log("User " + userdata + " connected. With socket id " + socket.id);
-        registeredUsers.push(userdata);
-    });
+        else if(gameStarted == true)
+        {
+            //Reconnect player...
+        } 
 
-    }
+    })  
+
+    
     
 
     socket.on("disconnect", function() 
     {    
-        console.log("user with id " + socket.id + " disconnected");  
+        
+        for (let index = 0; index < registeredUsers.length; index++) 
+        {
+            if(socket.id == registeredUsers[index].socketid)
+            {
+                console.log("user " + registeredUsers[index].username + " disconnected");  
+                registeredUsers.splice(index,1);
+            }
+        }
     });
     
   
