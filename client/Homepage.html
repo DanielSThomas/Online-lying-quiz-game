@@ -9,15 +9,51 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+
+        <script async defer>
+
+            function SaveUserData()
+            {
+                document.cookie = document.getElementById("username").value;
+                document.getElementById("displayname").innerText= ("Name : " + document.cookie);
+            }
+            
+
+            $(window).on("load", function() 
+        {
+            // Application code to run when the page has loaded goes here
+            document.getElementById("displayname").innerText= ("Name : " + document.cookie);
+
+        });
+            
+    
+        </script>
+
     </head>
+
     <body>
-        <script src="Client.js" async defer></script>
+
+        
 
         <h1>Lying game home page</h1>
 
+        <div>
+        <label for="username">Pick a name:</label><br>
+        <input type="text" id="username" name="username" value=""><br>
+        <button onclick="SaveUserData()" id="submitname"> Submit </button>
+        </div>
         
-        
-        
+        <div>
+            <h2 id ="displayname"> Name : </h2>
+        </div>
+
+        <div>
+            <form action="Gamepage.html">
+                <input type="submit" value="Connect to game"/>
+            </form>
+            
+        </div>
+
     </body>
 </html>
