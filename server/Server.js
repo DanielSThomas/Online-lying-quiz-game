@@ -1,4 +1,5 @@
 
+// Server setup
 let http = require("http").createServer();
 let port = 9000;
 http.listen(port, function(){console.log("Hosting on port " + port)})
@@ -7,7 +8,7 @@ let io = require("socket.io")(http,{
 })
 
 
-
+// Classes
 class Player
 {
     playerScore = 0;
@@ -23,10 +24,16 @@ class Player
 }
 
 
+//Game Vars
 let gameStarted = false;
 
 let registeredUsers = [];
 
+
+//Functions
+
+
+//Server Things
 
 io.on("connection", function(socket)
 {
@@ -69,19 +76,28 @@ io.on("connection", function(socket)
     })  
 
     
-    
-
     socket.on("disconnect", function() 
     {    
-        
-        for (let index = 0; index < registeredUsers.length; index++) 
         {
-            if(socket.id == registeredUsers[index].socketid)
+            for (let index = 0; index < registeredUsers.length; index++) 
             {
-                console.log("user " + registeredUsers[index].username + " disconnected");  
-                registeredUsers.splice(index,1);
+                if(socket.id == registeredUsers[index].socketid)
+                {
+                    console.log("user " + registeredUsers[index].username + " disconnected");  
+
+
+                    if (gameStarted == false) // Fully disconnect the player
+                    {
+                    registeredUsers.splice(index,1);
+                    }
+                    else if (gameStarted == true)
+                    {
+                    registeredUsers[index].disconnect = true;
+                    }
+                }
             }
         }
+        
     });
     
   
