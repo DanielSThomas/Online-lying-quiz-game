@@ -13,18 +13,30 @@
 
         <script async defer>
 
+            function CheckJoin()
+            {
+                if (document.cookie != "")
+                {
+                document.getElementById("connectbtn").disabled = false;
+                }             
+                
+            }
+
             function SaveUserData()
             {
                 document.cookie = document.getElementById("username").value;
                 document.getElementById("displayname").innerText= ("Name : " + document.cookie);
+                
+                CheckJoin();
             }
             
 
             $(window).on("load", function() 
         {
-            // Application code to run when the page has loaded goes here
+            //Application code to run when the page has loaded goes here
             document.getElementById("displayname").innerText= ("Name : " + document.cookie);
-
+            
+            CheckJoin();
         });
             
     
@@ -41,7 +53,7 @@
         <div>
         <label for="username">Pick a name:</label><br>
         <input type="text" id="username" name="username" value=""><br>
-        <button onclick="SaveUserData()" id="submitname"> Submit </button>
+        <button onclick="SaveUserData()" id="submitnamebtn"> Submit </button>
         </div>
         
         <div>
@@ -50,7 +62,7 @@
 
         <div>
             <form action="Gamepage.html">
-                <input type="submit" value="Connect to game"/>
+                <input type="submit" id="connectbtn" disabled="true" value="Connect to game"/>
             </form>
             
         </div>
