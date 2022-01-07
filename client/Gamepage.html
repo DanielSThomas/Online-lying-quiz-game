@@ -11,20 +11,68 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
         
+
+
+        <style>
+
+            body
+            {
+                background-color: rgb(47, 47, 53);
+                color: rgb(243, 243, 243);
+            }
+
+            .game-popup
+            {
+                
+                margin: auto;
+                width: 90%;
+                height: 750px;
+                display: none;
+                padding: 5px;
+                background-color: rgb(71, 72, 77);
+                text-align: center;
+               
+            }
+
+
+            #gamebackground
+            {
+                margin: auto;
+                width: 50%;
+                text-align: center;
+                padding: 5px;
+            }
+
+        </style>
+
+
+
         <script async defer>
 
 
             //let socket = io("ws://localhost:5600")
             let socket = io("ws://192.168.1.226:5600")
 
-            
             socket.emit('RegisterUser',document.cookie);
             
+
+
+
+
+            //Functions
+            function openPopup(popupid)
+            {
+                document.getElementById(popupid).style.display = "block"
+            }
+
+
+
+
 
             $(window).on("load", function() 
         {
             // Application code to run when the page has loaded goes here
-            document.getElementById("displayname").innerText= ("Name : " + document.cookie);
+            
             
             
         });
@@ -35,9 +83,21 @@
     <body>
         
 
-        <div>
-            <h2 id ="displayname"> Name : </h2>           
+        
+        <div id = "gamebackground">
+            <h1> Fib trivia</h1>    
+            <button class="open-button" onclick="openPopup('lobby')">Open Lobby</button>       
         </div>
+
+        
+
+        <div class="game-popup" id="lobby">
+            <h1>Lobby</h1>
+            
+
+        </div>
+
+
         
     </body>
 

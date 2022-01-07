@@ -11,6 +11,22 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
 
+        <style>
+
+            body
+            {
+                background-color: rgb(47, 47, 53);
+                color: rgb(243, 243, 243);
+            }
+            #HomeMenu
+            {
+                margin: auto;
+                width: 50%;
+                text-align: center;
+                padding: 5px;
+            }
+        </style>
+
         <script async defer>
 
             function CheckJoin()
@@ -25,7 +41,7 @@
             function SaveUserData()
             {
                 document.cookie = document.getElementById("username").value;
-                document.getElementById("displayname").innerText= ("Name : " + document.cookie);
+                document.getElementById("displayname").innerText= ("Current Name : " + document.cookie);
                 
                 CheckJoin();
             }
@@ -34,7 +50,7 @@
             $(window).on("load", function() 
         {
             //Application code to run when the page has loaded goes here
-            document.getElementById("displayname").innerText= ("Name : " + document.cookie);
+            document.getElementById("displayname").innerText= ("Current Name : " + document.cookie);
             
             CheckJoin();
         });
@@ -46,18 +62,18 @@
 
     <body>
 
-        
+    <div id = "HomeMenu">
 
         <h1>Fib trivia</h1>
 
         <div>
-        <label for="username">Pick a name:</label><br>
-        <input type="text" id="username" name="username" value=""><br>
+        <label for="username">Create a name:</label>
+        <input type="text" id="username" placeholder="Type name here" name="username" value="">
         <button onclick="SaveUserData()" id="submitnamebtn"> Submit </button>
         </div>
         
         <div>
-            <h2 id ="displayname"> Name : </h2>
+            <h2 id ="displayname"> </h2>
         </div>
 
         <div>
@@ -66,6 +82,6 @@
             </form>
             
         </div>
-
+    </div>
     </body>
 </html>
