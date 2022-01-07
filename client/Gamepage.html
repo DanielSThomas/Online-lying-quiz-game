@@ -49,15 +49,40 @@
 
         <script async defer>
 
-
-            //let socket = io("ws://localhost:5600")
-            let socket = io("ws://192.168.1.226:5600")
-
-            socket.emit('RegisterUser',document.cookie);
             
 
 
 
+
+
+            //let socket = io("ws://localhost:5600")
+            let socket = io("ws://192.168.1.226:5600")
+
+            socket.emit("RegisterUser",document.cookie);
+
+            socket.on("RegisterUser")
+            {
+
+
+                
+            }
+
+
+            socket.on("updateplayerlobby", function(playername)
+            {                
+
+                let listitem = document.createElement("li");
+                
+                let content = document.createTextNode(playername);
+
+                listitem.appendChild(content);
+
+                let element = document.getElementById("playerlist");
+
+                element.appendChild(listitem);
+            }
+            )
+     
 
             //Functions
             function openPopup(popupid)
@@ -65,7 +90,10 @@
                 document.getElementById(popupid).style.display = "block"
             }
 
-
+            function closePopup(popupid)
+            {
+                document.getElementById(popupid).style.display = "none"
+            }
 
 
 
@@ -94,6 +122,10 @@
         <div class="game-popup" id="lobby">
             <h1>Lobby</h1>
             
+            <ul id = "playerlist">
+
+
+            </ul>
 
         </div>
 

@@ -1,7 +1,9 @@
+const { emit } = require("process");
+require('../PlayerClass.js');
 
 // Server setup
 let http = require("http").createServer();
-let port = 9000;
+let port = 5600;
 http.listen(port, function(){console.log("Hosting on port " + port)})
 let io = require("socket.io")(http,{
     cors: { origin: "*"}
@@ -9,19 +11,19 @@ let io = require("socket.io")(http,{
 
 
 // Classes
-class Player
-{
-    playerScore = 0;
+// class Player
+// {
+//     playerScore = 0;
 
-    playerConnected = true;
+//     playerConnected = true;
     
-    constructor(username, socketid) 
-    {
-            this.username = username;
-            this.socketid = socketid;        
-    }
+//     constructor(username, socketid) 
+//     {
+//             this.username = username;
+//             this.socketid = socketid;        
+//     }
 
-}
+// }
 
 
 //Game Vars
@@ -45,7 +47,7 @@ io.on("connection", function(socket)
     {
         if(gameStarted == false)
         {
-            for (let index = 0; index < registeredUsers.length; index++) 
+            for (let index = 0; index < registeredUsers.length; index++) //Check all users for duplicate
             {
                 if(userdata == registeredUsers[index].username)
                 {
@@ -54,14 +56,20 @@ io.on("connection", function(socket)
                     return;
                 }
             }
+
             console.log("User " + userdata + " connected. With socket id " + socket.id);
+
             let player = new Player(userdata,socket.id)
+
             registeredUsers.push(player);
 
-
+           
+            
             console.log("Current lobby---------------")
             for (let index = 0; index < registeredUsers.length; index++) 
             {
+
+                io.emit("updateplayerlobby", (registeredUsers[index].username));
                 console.log(registeredUsers[index].username)
                 console.log(registeredUsers[index].socketid)
             }
@@ -74,6 +82,9 @@ io.on("connection", function(socket)
         } 
 
     })  
+
+    
+    
 
     
     socket.on("disconnect", function() 
