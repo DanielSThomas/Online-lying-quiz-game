@@ -9,8 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
-        
+        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>  
+        <script src="../classes/PlayerClass.js"></script>
 
 
         <style>
@@ -49,8 +49,8 @@
 
         <script async defer>
 
-            
 
+            let localregisteredUsers = [];
 
 
 
@@ -60,26 +60,34 @@
 
             socket.emit("RegisterUser",document.cookie);
 
-            socket.on("RegisterUser")
-            {
+            
 
 
-                
-            }
+            socket.on("updateLocalRegisteredUsers", function(registeredUsers)
+            { 
+                 
+                localregisteredUsers = registeredUsers;
 
 
-            socket.on("updateplayerlobby", function(playername)
-            {                
 
-                let listitem = document.createElement("li");
-                
-                let content = document.createTextNode(playername);
 
-                listitem.appendChild(content);
+                //Needs a if statment for game state check
 
-                let element = document.getElementById("playerlist");
 
-                element.appendChild(listitem);
+                let playerlist = document.getElementById("playerlist")
+
+                $("#playerlist").empty();
+
+                for (let index = 0; index < localregisteredUsers.length; index++) 
+                {
+                    let listitem = document.createTextNode(localregisteredUsers[index].username);
+                    let element = document.createElement("li");
+                    element.appendChild(listitem);
+                    playerlist.appendChild(element);
+                }
+
+                CheckStart();
+
             }
             )
      
@@ -94,6 +102,18 @@
             {
                 document.getElementById(popupid).style.display = "none"
             }
+            function CheckStart()
+            {
+                if(localregisteredUsers.length > 1)
+                {
+                    document.getElementById("gamestartbtn").disabled = false;
+                }
+                else
+                {
+                    document.getElementById("gamestartbtn").disabled = true;
+                }
+                
+            }
 
 
 
@@ -101,7 +121,9 @@
         {
             // Application code to run when the page has loaded goes here
             
-            
+            //Needs a if statment to check the game state
+            CheckStart();
+            openPopup("lobby");
             
         });
 
@@ -114,7 +136,7 @@
         
         <div id = "gamebackground">
             <h1> Fib trivia</h1>    
-            <button class="open-button" onclick="openPopup('lobby')">Open Lobby</button>       
+             
         </div>
 
         
@@ -126,6 +148,8 @@
 
 
             </ul>
+
+            <button id = "gamestartbtn" disabled ="true"> Start Game </button>
 
         </div>
 

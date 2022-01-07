@@ -1,5 +1,6 @@
 const { emit } = require("process");
-require('../PlayerClass.js');
+
+const Player = require("../classes/PlayerClass.js");
 
 // Server setup
 let http = require("http").createServer();
@@ -10,20 +11,6 @@ let io = require("socket.io")(http,{
 })
 
 
-// Classes
-// class Player
-// {
-//     playerScore = 0;
-
-//     playerConnected = true;
-    
-//     constructor(username, socketid) 
-//     {
-//             this.username = username;
-//             this.socketid = socketid;        
-//     }
-
-// }
 
 
 //Game Vars
@@ -51,7 +38,7 @@ io.on("connection", function(socket)
             {
                 if(userdata == registeredUsers[index].username)
                 {
-                    console.log("username " + userdata + " is already taken");
+                    console.log("Username " + userdata + " is already taken");
                     socket.disconnect();
                     return;
                 }
@@ -61,19 +48,12 @@ io.on("connection", function(socket)
 
             let player = new Player(userdata,socket.id)
 
+            player.playerConnected = true;
+
             registeredUsers.push(player);
 
-           
-            
-            console.log("Current lobby---------------")
-            for (let index = 0; index < registeredUsers.length; index++) 
-            {
-
-                io.emit("updateplayerlobby", (registeredUsers[index].username));
-                console.log(registeredUsers[index].username)
-                console.log(registeredUsers[index].socketid)
-            }
-       
+            io.emit("updateLocalRegisteredUsers", (registeredUsers));
+                
         }
 
         else if(gameStarted == true)
@@ -95,15 +75,16 @@ io.on("connection", function(socket)
                 if(socket.id == registeredUsers[index].socketid)
                 {
                     console.log("user " + registeredUsers[index].username + " disconnected");  
-
+                    registeredUsers[index].playerConnected = false;
 
                     if (gameStarted == false) // Fully disconnect the player
                     {
                     registeredUsers.splice(index,1);
+                    io.emit("updateLocalRegisteredUsers", (registeredUsers));
                     }
                     else if (gameStarted == true)
                     {
-                    registeredUsers[index].disconnect = true;
+                        // Keep info incase of reconnect
                     }
                 }
             }
