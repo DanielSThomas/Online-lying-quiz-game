@@ -29,11 +29,7 @@ let currentRoundNumber = 0;
 
 //Functions
 
-
-function StartRound(roundNumber) 
-{
-
-
+    //Game loop
 
     //Open the fake answers popup to clients
 
@@ -64,7 +60,7 @@ function StartRound(roundNumber)
     //end round, loop back to round start till all rounds complete. Other wise show final scores / winner.
 
 
-}
+
 
 function CreateRounds(howManyRounds) 
 {
@@ -137,17 +133,20 @@ io.on("connection", function(socket)
 
     socket.on("gameStart", function()
     {
-
         gameStarted = true;
 
         CreateQuestions();
         
         CreateRounds(2);
-        
-        
+         
         io.emit("gameStarted");
         console.log("Game Starting")
+
+        io.emit("getRoundInfo",(rounds[0]));
+
     })
+
+    
 
     socket.on("fakeanswer",function(fakeAnswer)
     {

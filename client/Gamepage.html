@@ -11,7 +11,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>  
         <script src="../classes/PlayerClass.js"></script>
-
+        <script src="../classes/RoundClass.js"></script>
 
         <style>
 
@@ -55,6 +55,8 @@
             let fakeAnswer;
 
             let selectedAnswer;
+
+            let localRoundInfo;
 
 
             //let socket = io("ws://localhost:5600")
@@ -114,12 +116,33 @@
                                
             })
 
+            socket.on("getRoundInfo",function(roundInfo)
+            {
+                localRoundInfo = roundInfo;
+
+                // plus 1
+                roundNo = localRoundInfo.roundNumber + 1;
+
+
+                for (let index = 0; index < 2; index++)
+                {
+                    document.getElementsByClassName("roundnumber")[index].innerText = "Round: " + roundNo;
+                    document.getElementsByClassName("question")[index].innerText = localRoundInfo.roundQuestion.questionContent;
+                }
+
+                
+                
+            })
+
+
             socket.on("gatherdAllFakeAnswers",function()
             {
                 closePopup("waiting")
-                
+
                 openPopup("guessrealanswer")
             })
+
+
 
 
 
@@ -158,6 +181,9 @@
                 let selectedAnswer = 0;
 
                 openPopup("gatherfakeanswer")
+
+                
+
             }
 
             function SetFakeAnswer(fakeAnswer)
@@ -228,7 +254,7 @@
         <div class="game-popup" id="gatherfakeanswer">
             <h1 class = "roundnumber"></h1>
             <h2 class = "question"></h2>
-            <h2> Type a fake answer to the above question to trick others. </h2>
+            <h3> Type a fake answer to the above question to trick others. </h3>
 
             <input type="text" id="fakeanswerinput" placeholder="Type answer here" name="fakeanswerinput" value="">
 
@@ -239,7 +265,7 @@
         <div class="game-popup" id="guessrealanswer">
             <h1 class = "roundnumber"></h1>
             <h2 class = "question"></h2>
-            <h2> Pick the correct answer to the above question. </h2>
+            <h3> Pick the correct answer to the above question. </h3>
         </div>
 
 
