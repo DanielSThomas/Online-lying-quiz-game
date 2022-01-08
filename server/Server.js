@@ -27,7 +27,7 @@ let registeredUsers = [];
 io.on("connection", function(socket)
 {
     
-    console.log("Connection Made")
+    console.log("Connection Made by " + socket.id)
 
         socket.on("RegisterUser", function(userdata)
     {
@@ -37,13 +37,13 @@ io.on("connection", function(socket)
             {
                 if(userdata == registeredUsers[index].username)
                 {
-                    console.log("Username " + userdata + " is already taken");
+                    console.log("Username " + userdata + " is already taken, disconnect user");
                     socket.disconnect();
                     return;
                 }
             }
 
-            console.log("User " + userdata + " connected. With socket id " + socket.id);
+            console.log("User " + userdata + " registered. With socket id " + socket.id);
 
             let player = new Player(userdata,socket.id)
 
@@ -54,11 +54,11 @@ io.on("connection", function(socket)
             io.emit("updateLocalRegisteredUsers", (registeredUsers));
                 
         }
-
-        else if(gameStarted == true)
+        else if (gameStarted == true)
         {
-            //Reconnect player...
-        } 
+            console.log("Game already started, disconnect user");
+            socket.disconnect();
+        }
 
     })  
 
@@ -85,37 +85,26 @@ io.on("connection", function(socket)
                     console.log("user " + registeredUsers[index].username + " disconnected");  
                     registeredUsers[index].playerConnected = false;
 
-                    if (gameStarted == false) // Fully disconnect the player
-                    {
+                   // disconnect the player
                     registeredUsers.splice(index,1);
-                    io.emit("updateLocalRegisteredUsers", (registeredUsers));
-                    }
-                    else if (gameStarted == true)
-                    {    
-                        let disconnectusers = 0;
-                                          
-                        for (let i = 0; i < registeredUsers.length; i++) 
-                        {
-                            if(registeredUsers[i].playerConnected == false)
-                            {
-                                disconnectusers++
-                            }
-                        }
 
-                        if (disconnectusers == registeredUsers.length)
-                        {
-                            //End game
-                            gameStarted = false;
-                            console.log("All players disconnected, endding game.")
-                            registeredUsers = [];
-                        }
-                        // Keep info incase of reconnect
+                    io.emit("updateLocalRegisteredUsers", (registeredUsers));
+
+                    if (registeredUsers.length == 0)
+                    {
+                     //End game
+                        gameStarted = false;
+                        console.log("All players disconnected, endding game.")
+                    }
+                    
+                    
+                        
                     }
                 }
             }
         }
         
-    });
+    );
     
   
 });
