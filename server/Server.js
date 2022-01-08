@@ -1,6 +1,9 @@
 const { emit, disconnect } = require("process");
 
 const Player = require("../classes/PlayerClass.js");
+const Question = require("../classes/QuestionClass.js");
+const Round = require("../classes/RoundClass.js");
+const FakeAnswer = require("../classes/FakeAnswerClass.js");
 
 // Server setup
 let http = require("http").createServer();
@@ -18,8 +21,65 @@ let gameStarted = false;
 
 let registeredUsers = [];
 
+let questions = [];
+
+let rounds = [];
 
 //Functions
+
+
+function StartRound(roundNumber) 
+{
+    //Open the fake answers popup to clients
+
+    //Display the question & round to clients
+
+    //Collect fake answers from clients
+
+    //Wait for all users to give answer
+
+    //Suffle answers
+
+    //Open the pick correct answer popup
+
+    //Display all answers
+
+    //Collect user picked answers
+
+    //Wait for all users
+
+    //Calculate scoring, check if user answered correctly or picked another users fake answer
+
+    //Give score to users who answered correctly and for every user that picked thier fake answer
+
+    //Display what players picked, show real answer, display scores
+
+    //open popup for total scores
+
+    //end round, loop back to round start till all rounds complete. Other wise show final scores / winner.
+
+
+}
+
+function CreateRounds(howManyRounds) 
+{
+    for (let index = 0; index < howManyRounds; index++) 
+    {
+        let round = new Round(index,questions[index]);
+        rounds.push(round);      
+    }
+}
+
+function CreateQuestions()
+{
+    let hardcodedquestion01 = new Question(01,"What is 2+2","4");
+
+    let hardcodedquestion02 = new Question(02,"What is 8+8","16");
+
+    questions.push(hardcodedquestion01);
+    questions.push(hardcodedquestion02);
+
+}
 
 
 //Server Things
@@ -29,7 +89,7 @@ io.on("connection", function(socket)
     
     console.log("Connection Made by " + socket.id)
 
-        socket.on("RegisterUser", function(userdata)
+        socket.on("registerUser", function(userdata)
     {
         if(gameStarted == false)
         {
@@ -50,6 +110,8 @@ io.on("connection", function(socket)
             player.playerConnected = true;
 
             registeredUsers.push(player);
+
+            io.emit("registerSuccess");
 
             io.emit("updateLocalRegisteredUsers", (registeredUsers));
                 

@@ -56,14 +56,23 @@
             //let socket = io("ws://localhost:5600")
             let socket = io("ws://192.168.1.226:5600")
 
-            socket.emit("RegisterUser",document.cookie);
+            socket.emit("registerUser",document.cookie);
 
            
+
+            socket.on("registerSuccess", function()
+            {
+                openPopup("lobby")
+            })
+            
 
 
             socket.on("updateLocalRegisteredUsers", function(registeredUsers)
             { 
                  
+
+                
+
                 localregisteredUsers = registeredUsers;
 
                 //Needs a if statment for game state check
@@ -140,7 +149,7 @@
             
             //Needs a if statment to check the game state
             CheckStart();
-            openPopup("lobby");
+           // openPopup("lobby");
             
         });
 
