@@ -98,6 +98,7 @@ io.on("connection", function(socket)
                 if(userdata == registeredUsers[index].username)
                 {
                     console.log("Username " + userdata + " is already taken, disconnect user");
+                    io.emit("errormsg",("Username " + userdata + " is already taken"))
                     socket.disconnect();
                     return;
                 }
@@ -118,6 +119,8 @@ io.on("connection", function(socket)
         }
         else if (gameStarted == true)
         {
+            io.emit("errormsg",("Game already started"))
+
             console.log("Game already started, disconnect user");
             socket.disconnect();
         }

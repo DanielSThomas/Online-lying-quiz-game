@@ -62,7 +62,13 @@
 
             socket.on("registerSuccess", function()
             {
+                closePopup("errorpopup")
                 openPopup("lobby")
+            })
+
+            socket.on("errormsg",function(error)
+            {
+                document.getElementById("error").innerText = error;
             })
             
 
@@ -149,7 +155,7 @@
             
             //Needs a if statment to check the game state
             CheckStart();
-           // openPopup("lobby");
+            openPopup("errorpopup");
             
         });
 
@@ -163,6 +169,13 @@
         <div id = "gamebackground">
             <h1> Fib Trivia</h1>    
              
+        </div>
+
+        <div class="game-popup" id="errorpopup">
+            <h1 id="error">No Connection</h1>
+            <form action="index.html">
+                <input type="submit" id="gobackbtn" value="Return to menu"/>
+            </form>    
         </div>
 
         
