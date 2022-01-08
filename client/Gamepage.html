@@ -114,6 +114,10 @@
                 }
                 
             }
+            function GameStart()
+            {
+                
+            }
 
 
 
@@ -140,17 +144,32 @@
         </div>
 
         
-
         <div class="game-popup" id="lobby">
             <h1>Lobby</h1>
             
             <ul id = "playerlist">
 
-
             </ul>
 
             <button id = "gamestartbtn" disabled ="true"> Start Game </button>
 
+        </div>
+
+        <div class="game-popup" id="gatherfakeanswer">
+            <h1 class = "roundnumber"></h1>
+            <h2 class = "question"></h2>
+            <h2> Type a fake answer to the above question to trick others. </h2>
+
+            <input type="text" id="fakeanswerinput" placeholder="Type answer here" name="fakeanswerinput" value="">
+
+            <button id = "submitfakeanswerbtn" disabled ="true"> Submit </button>
+
+        </div>
+
+        <div class="game-popup" id="guessrealanswer">
+            <h1 class = "roundnumber"></h1>
+            <h2 class = "question"></h2>
+            <h2> Pick the correct answer to the above question. </h2>
         </div>
 
 
