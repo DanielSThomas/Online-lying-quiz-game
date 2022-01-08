@@ -25,11 +25,16 @@ let questions = [];
 
 let rounds = [];
 
+let currentRoundNumber = 0;
+
 //Functions
 
 
 function StartRound(roundNumber) 
 {
+
+
+
     //Open the fake answers popup to clients
 
     //Display the question & round to clients
@@ -63,6 +68,7 @@ function StartRound(roundNumber)
 
 function CreateRounds(howManyRounds) 
 {
+    rounds = [];
     for (let index = 0; index < howManyRounds; index++) 
     {
         let round = new Round(index,questions[index]);
@@ -72,6 +78,7 @@ function CreateRounds(howManyRounds)
 
 function CreateQuestions()
 {
+    questions = [];
     let hardcodedquestion01 = new Question(01,"What is 2+2","4");
 
     let hardcodedquestion02 = new Question(02,"What is 8+8","16");
@@ -132,9 +139,28 @@ io.on("connection", function(socket)
     {
 
         gameStarted = true;
+
+        CreateQuestions();
+        
+        CreateRounds(2);
+        
         
         io.emit("gameStarted");
         console.log("Game Starting")
+    })
+
+    socket.on("fakeanswer",function(fakeAnswer)
+    {
+        rounds[currentRoundNumber].roundFakeAnswers.push(fakeAnswer);
+        console.log("Got fake answer " + fakeAnswer)
+
+        if(rounds[currentRoundNumber].roundFakeAnswers.length == registeredUsers.length)
+        {
+            console.log("Got all fake answers, continuing game");
+            io.emit("gatherdAllFakeAnswers");
+        }
+
+
     })
     
     
@@ -160,6 +186,7 @@ io.on("connection", function(socket)
                      //End game
                         gameStarted = false;
                         console.log("All players disconnected, endding game.")
+
                     }
                     
                     

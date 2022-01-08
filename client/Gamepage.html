@@ -52,6 +52,10 @@
 
             let localregisteredUsers = [];
 
+            let fakeAnswer;
+
+            let selectedAnswer;
+
 
             //let socket = io("ws://localhost:5600")
             let socket = io("ws://192.168.1.226:5600")
@@ -105,9 +109,16 @@
             {
                 
                 closePopup("lobby")
-                openPopup("gatherfakeanswer")
+
+                RoundStart();
+                               
+            })
+
+            socket.on("gatherdAllFakeAnswers",function()
+            {
+                closePopup("waiting")
                 
-                
+                openPopup("guessrealanswer")
             })
 
 
@@ -137,12 +148,31 @@
 
             function GameStart()
             {
-                socket.emit("gameStart");
+                socket.emit("gameStart");               
             }
 
-            function GetRoundQuestion()
+            function RoundStart()
             {
+                fakeAnswer = "";
 
+                let selectedAnswer = 0;
+
+                openPopup("gatherfakeanswer")
+            }
+
+            function SetFakeAnswer(fakeAnswer)
+            {
+                this.fakeAnswer = fakeAnswer;
+                socket.emit("fakeanswer",(this.fakeAnswer))
+                closePopup("gatherfakeanswer")
+                openPopup("waiting")
+                
+            }
+
+            function SetSelectedAnswer(selectedAnswer)
+            {
+                selectedAnswer = this.selectedAnswer;
+                //emit
             }
 
             
@@ -178,6 +208,11 @@
             </form>    
         </div>
 
+        <div class="game-popup" id="waiting">
+            <h1>Waiting on other players</h1>
+            
+        </div>
+
         
         <div class="game-popup" id="lobby">
             <h1>Lobby</h1>
@@ -197,7 +232,7 @@
 
             <input type="text" id="fakeanswerinput" placeholder="Type answer here" name="fakeanswerinput" value="">
 
-            <button id = "submitfakeanswerbtn"> Submit </button>
+            <button id = "submitfakeanswerbtn" onclick="SetFakeAnswer(document.getElementById('fakeanswerinput').value)"> Submit </button>
 
         </div>
 

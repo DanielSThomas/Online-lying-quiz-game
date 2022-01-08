@@ -3,12 +3,13 @@ class Round
     constructor(roundNumber, roundQuestion) 
     {
         this.roundNumber = roundNumber;
-        this.roundQuestion = roundQuestion;    
+        this.roundQuestion = roundQuestion;   
+        this.roundAnswer = this.roundQuestion.questionAnswer; 
         
     }
 
-    roundAnswer = this.roundQuestion.questionAnswer;
-
+   
+    
     roundFakeAnswers = [];
 
 
