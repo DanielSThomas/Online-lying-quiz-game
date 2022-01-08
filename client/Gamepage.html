@@ -53,14 +53,12 @@
             let localregisteredUsers = [];
 
 
-
-
             //let socket = io("ws://localhost:5600")
             let socket = io("ws://192.168.1.226:5600")
 
             socket.emit("RegisterUser",document.cookie);
 
-            
+           
 
 
             socket.on("updateLocalRegisteredUsers", function(registeredUsers)
@@ -68,11 +66,7 @@
                  
                 localregisteredUsers = registeredUsers;
 
-
-
-
                 //Needs a if statment for game state check
-
 
                 let playerlist = document.getElementById("playerlist")
 
@@ -91,6 +85,17 @@
             }
             )
      
+
+            socket.on("gameStarted",function()
+            {
+                
+                closePopup("lobby")
+                openPopup("gatherfakeanswer")
+                
+                
+            })
+
+
 
             //Functions
             function openPopup(popupid)
@@ -114,10 +119,18 @@
                 }
                 
             }
+
             function GameStart()
             {
-                
+                socket.emit("gameStart");
             }
+
+            function GetRoundQuestion()
+            {
+
+            }
+
+            
 
 
 
@@ -151,7 +164,7 @@
 
             </ul>
 
-            <button id = "gamestartbtn" disabled ="true"> Start Game </button>
+            <button id = "gamestartbtn" disabled ="true" onclick="GameStart()"> Start Game </button>
 
         </div>
 
@@ -162,7 +175,7 @@
 
             <input type="text" id="fakeanswerinput" placeholder="Type answer here" name="fakeanswerinput" value="">
 
-            <button id = "submitfakeanswerbtn" disabled ="true"> Submit </button>
+            <button id = "submitfakeanswerbtn"> Submit </button>
 
         </div>
 

@@ -1,4 +1,4 @@
-const { emit } = require("process");
+const { emit, disconnect } = require("process");
 
 const Player = require("../classes/PlayerClass.js");
 
@@ -28,7 +28,6 @@ io.on("connection", function(socket)
 {
     
     console.log("Connection Made")
-
 
         socket.on("RegisterUser", function(userdata)
     {
@@ -69,7 +68,8 @@ io.on("connection", function(socket)
 
         gameStarted = true;
         
-
+        io.emit("gameStarted");
+        console.log("Game Starting")
     })
     
     
@@ -91,7 +91,24 @@ io.on("connection", function(socket)
                     io.emit("updateLocalRegisteredUsers", (registeredUsers));
                     }
                     else if (gameStarted == true)
-                    {
+                    {    
+                        let disconnectusers = 0;
+                                          
+                        for (let i = 0; i < registeredUsers.length; i++) 
+                        {
+                            if(registeredUsers[i].playerConnected == false)
+                            {
+                                disconnectusers++
+                            }
+                        }
+
+                        if (disconnectusers == registeredUsers.length)
+                        {
+                            //End game
+                            gameStarted = false;
+                            console.log("All players disconnected, endding game.")
+                            registeredUsers = [];
+                        }
                         // Keep info incase of reconnect
                     }
                 }
