@@ -63,6 +63,14 @@ io.on("connection", function(socket)
 
     })  
 
+
+    socket.on("gameStart", function()
+    {
+
+        gameStarted = true;
+        
+
+    })
     
     
 
