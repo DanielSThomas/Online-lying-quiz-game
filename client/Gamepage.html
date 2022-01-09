@@ -46,6 +46,14 @@
                 padding: 20px 24px;               
                 width: 50%; 
                 display: block; 
+                animation: fadeIn 2s forwards;   
+                opacity: 0;        
+            }
+
+            @keyframes fadeIn 
+            {
+            0% {opacity:0;}
+            100% {opacity:1;}
             }
 
             .resultguesser
@@ -56,6 +64,8 @@
                 color: rgb(243, 243, 243);
                 padding: 10px 12px;               
                 width: 20%; 
+                display: inline;
+                border: 1px solid green; 
             }
 
 
@@ -206,11 +216,17 @@
 
                 let resultslist = document.getElementById("resultslist")
 
+                
+
                 for (let i= 0; i < localRoundInfo.roundFakeAnswers.length; i++) 
                 {
 
                     let divelement = document.createElement("div")
+
+                
                     divelement.classList.add("resultbox")
+
+                    divelement.style.animationDelay = ((i*2 + 1)+"s")
 
 
                     let listowner = document.createTextNode("This answer was given by " + localRoundInfo.roundFakeAnswers[i].owner);
@@ -220,9 +236,9 @@
                     ownerelement.appendChild(listowner);
 
 
-                    let listitem = document.createTextNode("Answer " + [i +1] + " : " + localRoundInfo.roundFakeAnswers[i].fakeAnswer);
+                    let listitem = document.createTextNode(localRoundInfo.roundFakeAnswers[i].fakeAnswer);
 
-                    let element = document.createElement("h2");
+                    let element = document.createElement("h1");
 
                     element.appendChild(listitem);
 
@@ -253,13 +269,15 @@
                 let divelement2 = document.createElement("div")
                 divelement2.classList.add("resultbox")
 
+                divelement2.style.animationDelay = ((((localRoundInfo.roundFakeAnswers.length) * 2) + 1) + "s");
+
                 let listowner2 = document.createTextNode("This is the correct answer");
                 let ownerelement2 = document.createElement("h3");
 
                 ownerelement2.appendChild(listowner2);
 
-                let listitem2 = document.createTextNode("Answer " + (localRoundInfo.roundFakeAnswers.length + 1) + " : " + localRoundInfo.roundAnswer);
-                let element2 = document.createElement("h2");
+                let listitem2 = document.createTextNode(localRoundInfo.roundAnswer);
+                let element2 = document.createElement("h1");
 
                 element2.appendChild(listitem2);
 
