@@ -84,6 +84,23 @@ function CreateQuestions()
 
 }
 
+function SetupAnswer() 
+{
+    let allAnswers = [];
+
+
+    for (let index = 0; index < rounds[currentRoundNumber].roundFakeAnswers.length; index++) 
+    {
+        allAnswers.push(rounds[currentRoundNumber].roundFakeAnswers[index].fakeAnswer);
+    }
+
+    allAnswers.push(rounds[currentRoundNumber].roundAnswer);
+
+    allAnswers.sort(() => Math.random() - 0.5);
+
+    return allAnswers;
+    
+}
 
 //Server Things
 
@@ -150,14 +167,59 @@ io.on("connection", function(socket)
 
     socket.on("fakeanswer",function(fakeAnswer)
     {
-        rounds[currentRoundNumber].roundFakeAnswers.push(fakeAnswer);
+
+
+        let _fakeAnswer = new FakeAnswer(fakeAnswer[0],fakeAnswer[1]);
+        
+
+        rounds[currentRoundNumber].roundFakeAnswers.push(_fakeAnswer);
         console.log("Got fake answer " + fakeAnswer)
 
         if(rounds[currentRoundNumber].roundFakeAnswers.length == registeredUsers.length)
         {
             console.log("Got all fake answers, continuing game");
+
             io.emit("gatherdAllFakeAnswers");
+
+            io.emit("getAnswers",(SetupAnswer()))
         }
+    })
+
+    socket.on("selectedanswer",function(selectedAnswer) 
+    {
+
+        let _owner = selectedAnswer[0];
+        let _selectedAnswer = selectedAnswer[1];
+
+        for (let i = 0; i < rounds[currentRoundNumber].roundFakeAnswers.length; i++) 
+        {
+            if(_selectedAnswer == rounds[currentRoundNumber].roundFakeAnswers[i].fakeAnswer)
+            {
+                
+                for (let j = 0; j< registeredUsers.length; j++) 
+                {
+                    if(rounds[currentRoundNumber].roundFakeAnswers[i].owner == registeredUsers[j].username)
+                    {
+                        registeredUsers[j].playerScore ++;
+                        console.log(registeredUsers[j].username + " Just scored from tricking someone. Total score is: " + registeredUsers[j].playerScore);
+                    }
+                    
+                }
+            } 
+            
+        }
+        if (_selectedAnswer == rounds[currentRoundNumber].roundAnswer)
+        {
+            for (let j = 0; j < registeredUsers.length; j++) 
+            {
+                if(_owner == registeredUsers[j].username)
+                {
+                    registeredUsers[j].playerScore ++;
+                    console.log(registeredUsers[j].username + " Just scored by getting the right answer. Total score is: " + registeredUsers[j].playerScore);
+                }
+             }
+        }
+        
 
 
     })
