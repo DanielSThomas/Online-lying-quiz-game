@@ -234,6 +234,8 @@ io.on("connection", function(socket)
         {
             console.log("All players have selected an answer")
             io.emit("getRoundInfo",(rounds[currentRoundNumber]));
+            io.emit("allPlayersAnswered");
+            io.emit("getResults",(registeredUsers));
         }
         
 

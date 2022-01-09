@@ -36,6 +36,28 @@
                
             }
 
+            .resultbox
+            {
+                margin: auto;
+                margin-bottom: 10px;
+                background-color: #04AA6D; 
+                border: 1px solid green; 
+                color: rgb(243, 243, 243);
+                padding: 20px 24px;               
+                width: 50%; 
+                display: block; 
+            }
+
+            .resultguesser
+            {
+                margin: auto;
+                margin-bottom: 5px;
+                background-color: #3e8e41;
+                color: rgb(243, 243, 243);
+                padding: 10px 12px;               
+                width: 20%; 
+            }
+
 
             #gamebackground
             {
@@ -151,7 +173,7 @@
 
            
 
-            socket.on("getAnswers",function(answers)
+            socket.on("getAnswers",function(answers) 
             {
 
                 $("#answerlist").empty();
@@ -175,7 +197,92 @@
                     }
                 }
 
+            })
+
+            socket.on("getResults",function(players)
+            {            
+
+                $("#resultslist").empty();
+
+                let resultslist = document.getElementById("resultslist")
+
+                for (let i= 0; i < localRoundInfo.roundFakeAnswers.length; i++) 
+                {
+
+                    let divelement = document.createElement("div")
+                    divelement.classList.add("resultbox")
+
+
+                    let listowner = document.createTextNode("This answer was given by " + localRoundInfo.roundFakeAnswers[i].owner);
+
+                    let ownerelement = document.createElement("h3");
+
+                    ownerelement.appendChild(listowner);
+
+
+                    let listitem = document.createTextNode("Answer " + [i +1] + " : " + localRoundInfo.roundFakeAnswers[i].fakeAnswer);
+
+                    let element = document.createElement("h2");
+
+                    element.appendChild(listitem);
+
+                    divelement.appendChild(element);
+
+                    divelement.appendChild(ownerelement);
+
+                    for (let j = 0; j < localRoundInfo.roundFakeAnswers[i].playersTricked.length; j++) 
+                    {
+                        let sublistitem = document.createTextNode(localRoundInfo.roundFakeAnswers[i].playersTricked[j]);
+
+                        let subelement = document.createElement("h4");
+
+                        subelement.classList.add("resultguesser")
+
+                        subelement.appendChild(sublistitem);
+
+                        divelement.appendChild(subelement);
+                    }
+
                     
+                    resultslist.appendChild(divelement);
+
+                }
+
+                //Display the correct answer
+
+                let divelement2 = document.createElement("div")
+                divelement2.classList.add("resultbox")
+
+                let listowner2 = document.createTextNode("This is the correct answer");
+                let ownerelement2 = document.createElement("h3");
+
+                ownerelement2.appendChild(listowner2);
+
+                let listitem2 = document.createTextNode("Answer " + (localRoundInfo.roundFakeAnswers.length + 1) + " : " + localRoundInfo.roundAnswer);
+                let element2 = document.createElement("h2");
+
+                element2.appendChild(listitem2);
+
+                divelement2.appendChild(element2);
+
+                divelement2.appendChild(ownerelement2);
+
+                for (let k = 0; k < localRoundInfo.roundQuestion.correctPlayers.length; k++) 
+
+                    {
+                        let sublistitem2 = document.createTextNode(localRoundInfo.roundQuestion.correctPlayers[k]);
+
+                        let subelement2 = document.createElement("h4");
+
+                        subelement2.classList.add("resultguesser")
+
+                        subelement2.appendChild(sublistitem2);
+
+                        divelement2.appendChild(subelement2);
+                    }
+
+
+                resultslist.appendChild(divelement2);
 
 
             })
@@ -186,6 +293,13 @@
                 closePopup("waiting")
 
                 openPopup("guessrealanswer")
+            })
+
+            socket.on("allPlayersAnswered",function()
+            {
+                closePopup("waiting")
+
+                openPopup("results")
             })
 
 
@@ -239,18 +353,19 @@
             {
 
 
-                
-
                  // plus 1
                 roundNo = localRoundInfo.roundNumber + 1;
 
-                for (let index = 0; index < 2; index++)
+                for (let index = 0; index < 3; index++)
                 {
                     document.getElementsByClassName("roundnumber")[index].innerText = "Round: " + roundNo;
                     document.getElementsByClassName("question")[index].innerText = localRoundInfo.roundQuestion.questionContent;
                 }
 
             }
+
+            
+
 
             function SetFakeAnswer(fakeAnswer)
             {
