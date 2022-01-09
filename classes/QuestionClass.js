@@ -6,6 +6,7 @@ class Question
         this.questionContent = questionContent;    
         this.questionAnswer = questionAnswer;     
     }
+    correctPlayers = [];
 
 }
 

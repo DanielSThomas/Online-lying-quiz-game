@@ -168,12 +168,8 @@ io.on("connection", function(socket)
     socket.on("fakeanswer",function(fakeAnswer)
     {
 
-
-        let _fakeAnswer = new FakeAnswer(fakeAnswer[0],fakeAnswer[1]);
-        
-
-        rounds[currentRoundNumber].roundFakeAnswers.push(_fakeAnswer);
-        console.log("Got fake answer " + fakeAnswer)
+        rounds[currentRoundNumber].roundFakeAnswers.push(fakeAnswer);
+        console.log("Got fake answer " + fakeAnswer.fakeAnswer + " From " + fakeAnswer.owner)
 
         if(rounds[currentRoundNumber].roundFakeAnswers.length == registeredUsers.length)
         {
@@ -201,7 +197,10 @@ io.on("connection", function(socket)
                     if(rounds[currentRoundNumber].roundFakeAnswers[i].owner == registeredUsers[j].username)
                     {
                         registeredUsers[j].playerScore ++;
-                        console.log(registeredUsers[j].username + " Just scored from tricking someone. Total score is: " + registeredUsers[j].playerScore);
+
+                        rounds[currentRoundNumber].roundFakeAnswers[i].playersTricked.push(_owner);
+
+                        console.log(registeredUsers[j].username + " Just scored from tricking "+  (_owner)  +". Total score is: " + registeredUsers[j].playerScore);
                     }
                     
                 }
@@ -215,6 +214,9 @@ io.on("connection", function(socket)
                 if(_owner == registeredUsers[j].username)
                 {
                     registeredUsers[j].playerScore ++;
+
+                    rounds[currentRoundNumber].roundQuestion.correctPlayers.push(_owner); // check this works
+
                     console.log(registeredUsers[j].username + " Just scored by getting the right answer. Total score is: " + registeredUsers[j].playerScore);
                 }
              }

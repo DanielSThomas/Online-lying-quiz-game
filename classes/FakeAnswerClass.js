@@ -6,7 +6,7 @@ class FakeAnswer
         this.fakeAnswer = fakeAnswer;        
     }
 
-    
+    playersTricked = [];
     
 }
 

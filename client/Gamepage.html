@@ -9,8 +9,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>  
-       
+        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>          
+        <script src="../classes/PlayerClass.js"></script>
+        <script src="../classes/QuestionClass.js"></script>
+        <script src="../classes/RoundClass.js"></script>
+        <script src="../classes/FakeAnswerClass.js"></script>
 
         <style>
 
@@ -66,8 +69,8 @@
 
 
         <script async defer>
-
-
+          
+            
             let localregisteredUsers = [];
 
             let localfakeAnswer;
@@ -167,7 +170,7 @@
 
                 for (let index = 0; index < localAnswers.length; index++) 
                 {
-                    if (localfakeAnswer != localAnswers[index])
+                    if (localfakeAnswer.fakeAnswer != localAnswers[index])
                     {
                         let listitem = document.createTextNode(localAnswers[index]);
                         let element = document.createElement("button");
@@ -239,12 +242,8 @@
             function SetFakeAnswer(fakeAnswer)
             {
                 localfakeAnswer = fakeAnswer;
-                output = [];
-
-                output.push(document.cookie);
-                output.push(fakeAnswer);
-
-                socket.emit("fakeanswer",(output));
+                
+                socket.emit("fakeanswer",(localfakeAnswer));
                 closePopup("gatherfakeanswer");
                 openPopup("waiting");
                 
@@ -292,7 +291,7 @@
 
         <div class="game-popup" id="errorpopup">
             <h1 id="error">No Connection</h1>
-            <form action="index.html">
+            <form action="../index.html">
                 <input type="submit" id="gobackbtn" value="Return to menu"/>
             </form>    
         </div>
@@ -321,7 +320,7 @@
 
             <input type="text" id="fakeanswerinput" placeholder="Type answer here" name="fakeanswerinput" value="">
 
-            <button id = "submitfakeanswerbtn" onclick="SetFakeAnswer(document.getElementById('fakeanswerinput').value)"> Submit </button>
+            <button id = "submitfakeanswerbtn" onclick="SetFakeAnswer(new FakeAnswer(document.cookie,document.getElementById('fakeanswerinput').value))"> Submit </button>
 
         </div>
 
