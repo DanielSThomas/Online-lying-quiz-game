@@ -27,6 +27,8 @@ let rounds = [];
 
 let currentRoundNumber = 0;
 
+let playersSelectedCount = 0;
+
 //Functions
 
     //Game loop
@@ -155,11 +157,15 @@ io.on("connection", function(socket)
         CreateQuestions();
         
         CreateRounds(2);
+
+        playersSelectedCount = 0;
+
+        io.emit("getRoundInfo",(rounds[0]));
          
         io.emit("gameStarted");
         console.log("Game Starting")
 
-        io.emit("getRoundInfo",(rounds[0]));
+        
 
     })
 
@@ -186,6 +192,8 @@ io.on("connection", function(socket)
 
         let _owner = selectedAnswer[0];
         let _selectedAnswer = selectedAnswer[1];
+
+        playersSelectedCount ++;
 
         for (let i = 0; i < rounds[currentRoundNumber].roundFakeAnswers.length; i++) 
         {
@@ -221,13 +229,18 @@ io.on("connection", function(socket)
                 }
              }
         }
+
+        if(playersSelectedCount == registeredUsers.length)
+        {
+            console.log("All players have selected an answer")
+            io.emit("getRoundInfo",(rounds[currentRoundNumber]));
+        }
         
 
 
     })
     
     
-
     
     socket.on("disconnect", function() 
     {    

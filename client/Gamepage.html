@@ -77,6 +77,8 @@
 
             let localAnswers = [];
 
+            let round
+
             let selectedAnswer;
 
             let localRoundInfo;
@@ -134,6 +136,8 @@
                 closePopup("lobby")
 
                 RoundStart();
+
+                DisplayRoundNoAndQuestion();
                                
             })
 
@@ -141,19 +145,11 @@
             {
                 localRoundInfo = roundInfo;
 
-                // plus 1
-                roundNo = localRoundInfo.roundNumber + 1;
-
-
-                for (let index = 0; index < 2; index++)
-                {
-                    document.getElementsByClassName("roundnumber")[index].innerText = "Round: " + roundNo;
-                    document.getElementsByClassName("question")[index].innerText = localRoundInfo.roundQuestion.questionContent;
-                }
-
-                
-                
+               // DisplayRoundNoAndQuestion();
+   
             })
+
+           
 
             socket.on("getAnswers",function(answers)
             {
@@ -162,11 +158,8 @@
 
                 localAnswers = answers;
 
-                
-
                 let answerlist = document.getElementById("answerlist")
 
-                
 
                 for (let index = 0; index < localAnswers.length; index++) 
                 {
@@ -229,6 +222,8 @@
 
             function RoundStart()
             {
+                
+
                 localfakeAnswer = "";
 
                 let selectedAnswer = null;
@@ -236,6 +231,24 @@
                 openPopup("gatherfakeanswer")
 
                 
+
+                
+            }
+
+            function DisplayRoundNoAndQuestion()
+            {
+
+
+                
+
+                 // plus 1
+                roundNo = localRoundInfo.roundNumber + 1;
+
+                for (let index = 0; index < 2; index++)
+                {
+                    document.getElementsByClassName("roundnumber")[index].innerText = "Round: " + roundNo;
+                    document.getElementsByClassName("question")[index].innerText = localRoundInfo.roundQuestion.questionContent;
+                }
 
             }
 
@@ -262,6 +275,7 @@
 
                 
             }
+
 
             
 
@@ -332,6 +346,16 @@
             
             </div>
         </div>
+
+        <div class="game-popup" id="results">
+            <h1 class = "roundnumber"></h1>
+            <h2 class = "question"></h2>
+            <h3> Round results. </h3>
+            <div id = "resultslist">
+            
+            </div>
+        </div>
+
 
 
         
