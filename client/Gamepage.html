@@ -236,6 +236,8 @@
 
                 let resultslist = document.getElementById("resultslist")
 
+                localregisteredUsers = players;
+
                 
 
                 for (let i= 0; i < localRoundInfo.roundFakeAnswers.length; i++) 
@@ -324,7 +326,7 @@
 
                 resultslist.appendChild(divelement2);
 
-                setTimeout(DisplayScoreBoard,7000)
+               
 
             })
 
@@ -365,7 +367,7 @@
             }
             function CheckStart()
             {
-                if(localregisteredUsers.length > 1)
+                if(localregisteredUsers.length > 1 && localregisteredUsers[0].username == document.cookie)
                 {
                     document.getElementById("gamestartbtn").disabled = false;
                 }
@@ -400,8 +402,7 @@
             function DisplayRoundNoAndQuestion()
             {
 
-
-                 // plus 1
+                 // plus 1 so it makes sense to players
                 roundNo = localRoundInfo.roundNumber + 1;
 
                 for (let index = 0; index < 4; index++)
@@ -420,7 +421,6 @@
                 localfakeAnswer = fakeAnswer;
                 
                 socket.emit("fakeanswer",(localfakeAnswer));              
-                
             }
 
             function SetSelectedAnswer(selectedAnswer)
@@ -433,7 +433,6 @@
                 socket.emit("selectedanswer",(output));
                 closePopup("guessrealanswer");
                 openPopup("waiting");
- 
             }
 
             function DisplayScoreBoard()
@@ -441,41 +440,51 @@
                 closePopup("results");
                 openPopup("scoreboard");
 
+              
+                $("#scoreslist").empty();
+
+                let scoreslist = document.getElementById("scoreslist")
 
 
+                for (let index = 0; index < localregisteredUsers.length; index++) 
+                {
+                    let divelement = document.createElement("div");
 
+                    let listitem = document.createTextNode(localregisteredUsers[index].username + "'s score : " + localregisteredUsers[index].playerScore + " points");
+                    
+                    let element = document.createElement("h2");
+
+                    element.appendChild(listitem);
+
+                    divelement.appendChild(element);
+
+                    scoreslist.appendChild(divelement);
+
+
+                }
+
+
+                if(localregisteredUsers[0].username == document.cookie)
+                {
+                    document.getElementById("scoreboardbtn").disabled = false;     
+                }
 
 
             }
 
             function EndRound()
             {
-
-                
-
-               
-                   
                 socket.emit("roundEnd");              
                 socket.emit("roundStart");
-                
-
-               
-
             }
-
-
-            
-
-
 
             $(window).on("load", function() 
         {
-            // Application code to run when the page has loaded goes here
-            
-            //Needs a if statment to check the game state
+            // Application code to run when the page has loaded goes here  
+
             CheckStart();
             openPopup("errorpopup");
-            
+        
         });
 
         </script>
@@ -542,18 +551,20 @@
             
             </div>
 
+            <button id = "resultsbtn" onclick="DisplayScoreBoard()"> Contiune  </button>
+
             
 
         </div>
 
         <div class="game-popup" id="scoreboard">
             <h1 class = "roundnumber"></h1>
-            <h3> Current Scores. </h3>
+            <h2> Current Scores. </h2>
             <div id = "scoreslist">
             
             </div>
 
-            <button id = "scoreboardbtn"  onclick="EndRound()"> Start Next Round  </button>
+            <button id = "scoreboardbtn" disabled = "true" onclick="EndRound()"> Start Next Round  </button>
         </div>
 
 
