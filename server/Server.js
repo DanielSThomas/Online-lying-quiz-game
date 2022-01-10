@@ -173,18 +173,39 @@ io.on("connection", function(socket)
 
     socket.on("fakeanswer",function(fakeAnswer)
     {
-
-        rounds[currentRoundNumber].roundFakeAnswers.push(fakeAnswer);
-        console.log("Got fake answer " + fakeAnswer.fakeAnswer + " From " + fakeAnswer.owner)
-
-        if(rounds[currentRoundNumber].roundFakeAnswers.length == registeredUsers.length)
+         
+    //Check answer is not the actual answer   
+    if(fakeAnswer.fakeAnswer == rounds[currentRoundNumber].roundAnswer)
+    {
+        socket.emit("errormsg","Nope: Answer already taken. Try another.")
+        return;
+    }        
+        
+    //Check for duplicate answers
+    for (let index = 0; index < rounds[currentRoundNumber].roundFakeAnswers.length; index++) 
+    {
+        if(fakeAnswer.fakeAnswer == rounds[currentRoundNumber].roundFakeAnswers[index].fakeAnswer)
         {
-            console.log("Got all fake answers, continuing game");
-
-            io.emit("gatherdAllFakeAnswers");
-
-            io.emit("getAnswers",(SetupAnswer()))
+            socket.emit("errormsg","Nope: Answer already taken. Try another.")
+            return;
         }
+    }        
+            
+    rounds[currentRoundNumber].roundFakeAnswers.push(fakeAnswer);
+    console.log("Got fake answer " + fakeAnswer.fakeAnswer + " From " + fakeAnswer.owner)
+
+    socket.emit("validfakeanswer");
+
+    if(rounds[currentRoundNumber].roundFakeAnswers.length == registeredUsers.length)
+    {
+        console.log("Got all fake answers, continuing game");
+
+        io.emit("gatherdAllFakeAnswers");
+
+        io.emit("getAnswers",(SetupAnswer()))
+    }
+        
+        
     })
 
     socket.on("selectedanswer",function(selectedAnswer) 

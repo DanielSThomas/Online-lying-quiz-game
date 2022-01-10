@@ -131,7 +131,7 @@
 
             socket.on("errormsg",function(error)
             {
-                document.getElementById("error").innerText = error;
+                alert(error)
             })
             
 
@@ -320,6 +320,12 @@
                 openPopup("results")
             })
 
+            socket.on("validfakeanswer",function()
+            {
+                closePopup("gatherfakeanswer");
+                openPopup("waiting");
+            })
+
 
 
 
@@ -389,9 +395,7 @@
             {
                 localfakeAnswer = fakeAnswer;
                 
-                socket.emit("fakeanswer",(localfakeAnswer));
-                closePopup("gatherfakeanswer");
-                openPopup("waiting");
+                socket.emit("fakeanswer",(localfakeAnswer));              
                 
             }
 
