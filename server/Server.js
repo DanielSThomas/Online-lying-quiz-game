@@ -29,40 +29,6 @@ let currentRoundNumber = 0;
 
 let playersSelectedCount = 0;
 
-//Functions
-
-    //Game loop
-
-    //Open the fake answers popup to clients
-
-    //Display the question & round to clients
-
-    //Collect fake answers from clients
-
-    //Wait for all users to give answer
-
-    //Suffle answers
-
-    //Open the pick correct answer popup
-
-    //Display all answers
-
-    //Collect user picked answers
-
-    //Wait for all users
-
-    //Calculate scoring, check if user answered correctly or picked another users fake answer
-
-    //Give score to users who answered correctly and for every user that picked thier fake answer
-
-    //Display what players picked, show real answer, display scores
-
-    //open popup for total scores
-
-    //end round, loop back to round start till all rounds complete. Other wise show final scores / winner.
-
-
-
 
 function CreateRounds(howManyRounds) 
 {
@@ -158,13 +124,18 @@ io.on("connection", function(socket)
         
         CreateRounds(2);
 
-        playersSelectedCount = 0;
-
-        io.emit("getRoundInfo",(rounds[0]));
-         
+        
         io.emit("gameStarted");
         console.log("Game Starting")
+    })
 
+    socket.on("roundStart",function() 
+    {
+        
+        console.log("New Round. Round : " + currentRoundNumber)
+        playersSelectedCount = 0;
+        io.emit("getRoundInfo",(rounds[currentRoundNumber]));
+        io.emit("roundStarted")
         
 
     })
@@ -257,10 +228,17 @@ io.on("connection", function(socket)
             io.emit("getRoundInfo",(rounds[currentRoundNumber]));
             io.emit("allPlayersAnswered");
             io.emit("getResults",(registeredUsers));
-        }
+        }      
+
+
+    })
+
+    socket.on("roundEnd",function() 
+    {
         
-
-
+        currentRoundNumber ++;
+        
+        
     })
     
     
@@ -284,6 +262,7 @@ io.on("connection", function(socket)
                     {
                      //End game
                         gameStarted = false;
+                        currentRoundNumber = 0;
                         console.log("All players disconnected, endding game.")
 
                     }

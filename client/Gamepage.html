@@ -107,9 +107,7 @@
 
             let localfakeAnswer;
 
-            let localAnswers = [];
-
-            let round
+            let localAnswers = [];          
 
             let selectedAnswer;
 
@@ -167,10 +165,19 @@
                 
                 closePopup("lobby")
 
-                RoundStart();
+                if(document.cookie == localregisteredUsers[0].username)
+                {
+                    socket.emit("roundStart");
+                }
 
+                
+                
+            })
+
+            socket.on("roundStarted",function()
+            {
+                RoundStart();
                 DisplayRoundNoAndQuestion();
-                               
             })
 
             socket.on("getRoundInfo",function(roundInfo)
@@ -261,6 +268,8 @@
 
                     
                     resultslist.appendChild(divelement);
+
+                    
 
                 }
 
@@ -361,14 +370,13 @@
             function RoundStart()
             {
                 
-
                 localfakeAnswer = "";
 
-                let selectedAnswer = null;
+                selectedAnswer = null;
+
+                localAnswers = null;           
 
                 openPopup("gatherfakeanswer")
-
-                
 
                 
             }
@@ -380,7 +388,7 @@
                  // plus 1
                 roundNo = localRoundInfo.roundNumber + 1;
 
-                for (let index = 0; index < 3; index++)
+                for (let index = 0; index < 4; index++)
                 {
                     document.getElementsByClassName("roundnumber")[index].innerText = "Round: " + roundNo;
                     document.getElementsByClassName("question")[index].innerText = localRoundInfo.roundQuestion.questionContent;
@@ -409,8 +417,34 @@
                 socket.emit("selectedanswer",(output));
                 closePopup("guessrealanswer");
                 openPopup("waiting");
+ 
+            }
 
+            function DisplayScoreBoard()
+            {
+                closePopup("results");
+                openPopup("scoreboard");
+
+
+
+
+
+
+            }
+
+            function EndRound()
+            {
+
+                closePopup("scoreboard")
+
+               
+                   
+                socket.emit("roundEnd","1");              
+                socket.emit("roundStart");
                 
+
+               
+
             }
 
 
@@ -491,6 +525,19 @@
             <div id = "resultslist">
             
             </div>
+
+            <button id = "resultsbtn"  onclick="DisplayScoreBoard()"> Continue </button>
+
+        </div>
+
+        <div class="game-popup" id="scoreboard">
+            <h1 class = "roundnumber"></h1>
+            <h3> Current Scores. </h3>
+            <div id = "scoreslist">
+            
+            </div>
+
+            <button id = "scoreboardbtn"  onclick="EndRound()"> Start Next Round  </button>
         </div>
 
 
