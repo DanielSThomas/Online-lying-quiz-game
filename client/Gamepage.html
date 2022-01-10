@@ -23,14 +23,27 @@
                 color: rgb(243, 243, 243);
             }
 
+            button
+            {
+                padding: 5px;
+                
+            }
+
+            input
+            {
+                padding: 5px;
+                
+            }
+
             .game-popup
             {
                 
                 margin: auto;
                 width: 90%;
-                height: 750px;
+                height: 100%;
                 display: none;
                 padding: 5px;
+                padding-bottom: 25px;
                 background-color: rgb(71, 72, 77);
                 text-align: center;
                
@@ -148,8 +161,8 @@
 
                 for (let index = 0; index < localregisteredUsers.length; index++) 
                 {
-                    let listitem = document.createTextNode(localregisteredUsers[index].username);
-                    let element = document.createElement("li");
+                    let listitem = document.createTextNode("- " + localregisteredUsers[index].username);
+                    let element = document.createElement("h2");
                     element.appendChild(listitem);
                     playerlist.appendChild(element);
                 }
@@ -311,6 +324,7 @@
 
                 resultslist.appendChild(divelement2);
 
+                setTimeout(DisplayScoreBoard,7000)
 
             })
 
@@ -374,7 +388,9 @@
 
                 selectedAnswer = null;
 
-                localAnswers = null;           
+                localAnswers = null;  
+                
+                closePopup("scoreboard")
 
                 openPopup("gatherfakeanswer")
 
@@ -435,11 +451,11 @@
             function EndRound()
             {
 
-                closePopup("scoreboard")
+                
 
                
                    
-                socket.emit("roundEnd","1");              
+                socket.emit("roundEnd");              
                 socket.emit("roundStart");
                 
 
@@ -490,9 +506,9 @@
         <div class="game-popup" id="lobby">
             <h1>Lobby</h1>
             
-            <ul id = "playerlist">
+            <div id = "playerlist">
 
-            </ul>
+            </div>
 
             <button id = "gamestartbtn" disabled ="true" onclick="GameStart()"> Start Game </button>
 
@@ -526,7 +542,7 @@
             
             </div>
 
-            <button id = "resultsbtn"  onclick="DisplayScoreBoard()"> Continue </button>
+            
 
         </div>
 

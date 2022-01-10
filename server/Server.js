@@ -29,6 +29,8 @@ let currentRoundNumber = 0;
 
 let playersSelectedCount = 0;
 
+let maxRounds = 3;
+
 
 function CreateRounds(howManyRounds) 
 {
@@ -47,8 +49,11 @@ function CreateQuestions()
 
     let hardcodedquestion02 = new Question(02,"What is 8+8","16");
 
+    let hardcodedquestion03 = new Question(03,"What is the meaning of life","42");
+
     questions.push(hardcodedquestion01);
     questions.push(hardcodedquestion02);
+    questions.push(hardcodedquestion03);
 
 }
 
@@ -122,7 +127,7 @@ io.on("connection", function(socket)
 
         CreateQuestions();
         
-        CreateRounds(2);
+        CreateRounds(maxRounds);
 
         
         io.emit("gameStarted");
