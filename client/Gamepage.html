@@ -394,6 +394,8 @@
                 
                 closePopup("scoreboard")
 
+                closePopup("results")
+
                 openPopup("gatherfakeanswer")
 
                 
@@ -445,12 +447,34 @@
 
                 let scoreslist = document.getElementById("scoreslist")
 
+                let reorderedscores = localregisteredUsers;
+
+                function sortbyscore(a, b)
+                {
+                    if (a.playerScore > b.playerScore) return 1;
+                    if (a.playerScore < b.playerScore) return -1;
+
+                    return 0;
+                }
+
+                reorderedscores.sort(sortbyscore);
+
+                reorderedscores.reverse();
+
+                
+
+
+                // for (let index = 0; index < localregisteredUsers.length; index++) 
+                // {
+                //     if ()
+                // }
+
 
                 for (let index = 0; index < localregisteredUsers.length; index++) 
                 {
                     let divelement = document.createElement("div");
 
-                    let listitem = document.createTextNode(localregisteredUsers[index].username + "'s score : " + localregisteredUsers[index].playerScore + " points");
+                    let listitem = document.createTextNode(reorderedscores[index].username + "'s score : " + reorderedscores[index].playerScore + " points");
                     
                     let element = document.createElement("h2");
 
@@ -565,6 +589,19 @@
             </div>
 
             <button id = "scoreboardbtn" disabled = "true" onclick="EndRound()"> Start Next Round  </button>
+        </div>
+
+        <div class="game-popup" id="finalscore">
+            <h1> End of game </h1>
+            <h2> Final Scores. </h2>
+            <div id = "scoreslist">
+            
+            </div>
+
+            <form action="../index.html">
+                <input type="submit" id="gobackbtn" value="Return to menu"/>
+            </form>   
+
         </div>
 
 
