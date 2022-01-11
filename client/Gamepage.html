@@ -128,7 +128,7 @@
 
 
             
-            let socket = io("ws://192.168.1.226:5600") // Change this to the nodejs server ip.
+            let socket = io("ws://81.129.94.213:25566") // Change this to the nodejs server ip.
 
             socket.emit("registerUser",document.cookie);
 
@@ -614,7 +614,7 @@
         <div class="game-popup" id="gatherfakeanswer">
             <h1 class = "roundnumber"></h1>
             <h2 class = "question"></h2>
-            <h3> Type a fake answer to the above question to trick others. </h3>
+            <h3> Create a fake answer to the question, to trick other players. </h3>
 
             <input type="text" id="fakeanswerinput" placeholder="Type answer here" name="fakeanswerinput" value="">
 
@@ -625,7 +625,7 @@
         <div class="game-popup" id="guessrealanswer">
             <h1 class = "roundnumber"></h1>
             <h2 class = "question"></h2>
-            <h3> Pick the correct answer to the above question. </h3>
+            <h3> Guess the correct answer. </h3>
             <div id = "answerlist">
             
             </div>

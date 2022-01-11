@@ -15,7 +15,7 @@ Mongoose.connect(dbURIReadOnly)
 
 // Server setup
 let http = require("http").createServer();
-let port = 5600;
+let port = 25566;
 http.listen(port, function(){console.log("Hosting on port " + port)})
 let io = require("socket.io")(http,{
     cors: { origin: "*"}
