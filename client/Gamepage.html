@@ -127,8 +127,8 @@
             let localRoundInfo;
 
 
-            //let socket = io("ws://localhost:5600")
-            let socket = io("ws://192.168.1.226:5600")
+            
+            let socket = io("ws://192.168.1.226:5600") // Change this to the nodejs server ip.
 
             socket.emit("registerUser",document.cookie);
 

@@ -16,7 +16,7 @@ let io = require("socket.io")(http,{
 
 
 
-//Game Vars
+//Server Global Vars
 let gameStarted = false;
 
 let registeredUsers = [];
@@ -29,7 +29,7 @@ let currentRoundNumber = 0;
 
 let playersSelectedCount = 0;
 
-let maxRounds = 1;
+let maxRounds = 3;
 
 
 function CreateRounds(howManyRounds) 
