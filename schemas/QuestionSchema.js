@@ -1,4 +1,4 @@
-const Mongoose = require("mongoose");
+const Mongoose = require("../server/node_modules/mongoose");
 const Schema = Mongoose.Schema;
 
 const questionSchema = new Schema(
@@ -16,5 +16,5 @@ const questionSchema = new Schema(
     }, { id : true }
 )
 
-const dbQuestion = Mongoose.model("dbQuestion",questionSchema);
+const dbQuestion = Mongoose.model("Question",questionSchema);
 module.exports = dbQuestion;

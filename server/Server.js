@@ -4,13 +4,15 @@ const Player = require("../classes/PlayerClass.js");
 const Question = require("../classes/QuestionClass.js");
 const Round = require("../classes/RoundClass.js");
 const FakeAnswer = require("../classes/FakeAnswerClass.js");
+const dbQuestion = require("../schemas/QuestionSchema.js")
 
 //mongodb connection
-const dbURI = "mongodb+srv://Fib_User:Fib_Pass@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
+const dbURIReadOnly = "mongodb+srv://Fib_User:Fib_Pass@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
+const dbURI = "mongodb+srv://Fib_Admin:Winter1@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
 const Mongoose = require("mongoose")
 Mongoose.connect(dbURI)
 .then(()=>console.log("Connected to mongo database"))
-.catch((err) => console.log(err))
+.catch((err) => console.log(err));
 
 // Server setup
 let http = require("http").createServer();
@@ -38,6 +40,9 @@ let playersSelectedCount = 0;
 
 let maxRounds = 3;
 
+let dbquestions;
+
+GetQuestions(); 
 
 function CreateRounds(howManyRounds) 
 {
@@ -49,20 +54,44 @@ function CreateRounds(howManyRounds)
     }
 }
 
-function CreateQuestions()
+
+
+function CreateQuestions(questionContent,questionAnswer) 
 {
-    questions = [];
-    let hardcodedquestion01 = new Question(01,"What is 2+2","4");
-
-    let hardcodedquestion02 = new Question(02,"What is 8+8","16");
-
-    let hardcodedquestion03 = new Question(03,"What is the meaning of life","42");
-
-    questions.push(hardcodedquestion01);
-    questions.push(hardcodedquestion02);
-    questions.push(hardcodedquestion03);
-
+    
 }
+
+
+async function GetQuestions() 
+{
+
+    // let testquestion = new dbQuestion({
+    //     questionContent: "Test question",
+    //     questionAnswer: "Test answer"
+    // })
+
+    //testquestion.save()
+
+    dbquestions = await dbQuestion.find();
+
+
+
+    questions = [];
+
+    for (let index = 0; index < maxRounds; index++) 
+    {
+
+        randomnumber = Math.floor(Math.random() * dbquestions.length)
+
+        let _question = new Question([index],dbquestions[randomnumber]._doc.questionContent,dbquestions[randomnumber]._doc.questionAnswer);
+        questions.push(_question);
+    }
+
+    
+    
+}
+
+
 
 function SetupAnswer() 
 {
@@ -86,6 +115,7 @@ function SetupAnswer()
 
 io.on("connection", function(socket)
 {
+   
     
     console.log("Connection Made by " + socket.id)
 
@@ -132,7 +162,7 @@ io.on("connection", function(socket)
     {
         gameStarted = true;
 
-        CreateQuestions();
+        
         
         CreateRounds(maxRounds);
 
