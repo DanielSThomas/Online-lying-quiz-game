@@ -29,7 +29,7 @@ let currentRoundNumber = 0;
 
 let playersSelectedCount = 0;
 
-let maxRounds = 3;
+let maxRounds = 1;
 
 
 function CreateRounds(howManyRounds) 
@@ -91,7 +91,7 @@ io.on("connection", function(socket)
                 if(userdata == registeredUsers[index].username)
                 {
                     console.log("Username " + userdata + " is already taken, disconnect user");
-                    io.emit("errormsg",("Username " + userdata + " is already taken"))
+                    socket.emit("errormsg",("Username " + userdata + " is already taken"))
                     socket.disconnect();
                     return;
                 }
@@ -112,7 +112,7 @@ io.on("connection", function(socket)
         }
         else if (gameStarted == true)
         {
-            io.emit("errormsg",("Game already started"))
+            socket.emit("errormsg",("Game already started"))
 
             console.log("Game already started, disconnect user");
             socket.disconnect();
@@ -136,11 +136,17 @@ io.on("connection", function(socket)
 
     socket.on("roundStart",function() 
     {
+        if (currentRoundNumber == maxRounds)
+        {
+            console.log("All rounds done, ending game");
+            io.emit("gameEnded");
+            return;
+        }
         
-        console.log("New Round. Round : " + currentRoundNumber)
+        console.log("New Round. Round : " + currentRoundNumber);
         playersSelectedCount = 0;
         io.emit("getRoundInfo",(rounds[currentRoundNumber]));
-        io.emit("roundStarted")
+        io.emit("roundStarted");
         
 
     })

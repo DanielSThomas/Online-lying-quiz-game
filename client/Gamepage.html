@@ -201,8 +201,7 @@
    
             })
 
-           
-
+        
             socket.on("getAnswers",function(answers) 
             {
 
@@ -228,6 +227,7 @@
                 }
 
             })
+
 
             socket.on("getResults",function(players)
             {            
@@ -350,6 +350,30 @@
                 closePopup("gatherfakeanswer");
                 openPopup("waiting");
             })
+
+            socket.on("gameEnded",function()
+            {
+                closePopup("results");
+
+                closePopup("scoreboard")
+
+                closePopup("gatherfakeanswer")
+
+                openPopup("finalscore");
+
+                document.getElementById("finalscores").innerHTML = document.getElementById("scoreslist").innerHTML;
+
+                setTimeout(forceDisconnect,20000)
+
+                function forceDisconnect()
+                {
+                    window.location.replace("../index.html");
+                }
+
+                
+
+                
+            }) 
 
 
 
@@ -594,7 +618,7 @@
         <div class="game-popup" id="finalscore">
             <h1> End of game </h1>
             <h2> Final Scores. </h2>
-            <div id = "scoreslist">
+            <div id = "finalscores">
             
             </div>
 
