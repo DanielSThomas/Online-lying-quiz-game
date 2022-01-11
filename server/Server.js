@@ -8,7 +8,6 @@ const QuestionSchema = require("../schemas/QuestionSchema.js");
 
 //mongodb connection
 const dbURIReadOnly = "mongodb+srv://Fib_User:Fib_Pass@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
-const dbURI = "mongodb+srv://Fib_Admin:Winter1@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
 const Mongoose = require("mongoose")
 Mongoose.connect(dbURIReadOnly)
 .then(()=>console.log("Connected to mongo database"))
@@ -45,7 +44,7 @@ let dbquestions;
 //Server Options
 let maxRounds = 3;
 
-questionCatagory = "standard_question"
+questionCatagory = "opentdb_question"
 
 
 GetQuestions(); 
@@ -71,13 +70,40 @@ async function GetQuestions()
 
     questions = [];
 
-    for (let index = 0; index < maxRounds; index++) 
+    usednumbers = [];
+
+    let index = 0;
+
+    for (index = 0; index < maxRounds; index++) 
     {
+
+        let skip = false;
 
         randomnumber = Math.floor(Math.random() * dbquestions.length)
 
-        let _question = new Question([index],dbquestions[randomnumber]._doc.questionContent,dbquestions[randomnumber]._doc.questionAnswer);
-        questions.push(_question);
+        
+
+
+        for (let i = 0; i < usednumbers.length; i++) 
+        {
+            if (usednumbers[i] == randomnumber)
+            {
+                index --;
+                skip = true; // if duplicate question skip adding it and try again
+            }
+            
+        }
+        
+        if (skip == false)
+        {
+            let _question = new Question([index],dbquestions[randomnumber]._doc.questionContent,dbquestions[randomnumber]._doc.questionAnswer);
+
+            usednumbers.push(randomnumber)
+    
+            questions.push(_question);
+        }
+
+       
     }
 
     
