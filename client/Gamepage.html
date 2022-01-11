@@ -391,14 +391,28 @@
             }
             function CheckStart()
             {
-                if(localregisteredUsers.length > 1 && localregisteredUsers[0].username == document.cookie)
+                
+                if(localregisteredUsers[0].username == document.cookie)
                 {
-                    document.getElementById("gamestartbtn").disabled = false;
-                }
-                else
-                {
+
+                document.getElementById("opensettingsbtn").disabled = false;  
+                
+                    if(localregisteredUsers.length > 1)
+                    {
+                        document.getElementById("gamestartbtn").disabled = false;
+                    }
+
+                    else
+                    {
                     document.getElementById("gamestartbtn").disabled = true;
+                    }
+
                 }
+                // if(localregisteredUsers.length > 1 && localregisteredUsers[0].username == document.cookie)
+                // {
+                    
+                // }
+                
                 
             }
 
@@ -526,12 +540,37 @@
                 socket.emit("roundStart");
             }
 
+            function UpdateSettings()
+            {
+                let settings = [];
+                settings [0] = document.getElementById("maxroundinput").value;
+
+                let catagorys = document.getElementsByName("questionselect");
+                let selectedcatagory ;
+
+                for(let i = 0; i < catagorys.length; i++) 
+                {
+                    if(catagorys[i].checked)
+                    selectedcatagory = catagorys[i].value;
+                }
+
+                settings [1] = selectedcatagory;
+                socket.emit("updateSettings",(settings))
+                closePopup("settings")
+                openPopup("lobby")
+            }
+
             $(window).on("load", function() 
         {
             // Application code to run when the page has loaded goes here  
 
-            CheckStart();
+
             openPopup("errorpopup");
+
+            CheckStart();
+
+            
+            
         
         });
 
@@ -568,6 +607,8 @@
             </div>
 
             <button id = "gamestartbtn" disabled ="true" onclick="GameStart()"> Start Game </button>
+
+            <button id = "opensettingsbtn" disabled ="true" onclick="openPopup('settings'); closePopup('lobby');"> Settings </button>
 
         </div>
 
@@ -625,6 +666,29 @@
             <form action="../index.html">
                 <input type="submit" id="gobackbtn" value="Return to menu"/>
             </form>   
+
+        </div>
+
+        <div class="game-popup" id="settings">
+            <h1> Game settings </h1>
+            <h2> Max Rounds </h2>
+
+            <input type="number" id="maxroundinput" name="maxroundinput" value="3" min="1">
+
+            <h2> Question Catagory </h2>
+
+            
+
+            <input type="radio" checked = "true" id="standardradio" name="questionselect" value="standard_question">
+
+            <label for="standard_question"> Standard </label><br/>
+
+            <input type="radio" id="standardradio2" name="questionselect" value="question">
+
+            <label for="question"> Standard 2 </label><br/>
+            
+            <button id = "settingsbtn" onclick="UpdateSettings()"> Apply </button>
+             
 
         </div>
 

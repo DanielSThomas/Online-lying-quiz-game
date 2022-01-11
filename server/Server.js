@@ -4,7 +4,7 @@ const Player = require("../classes/PlayerClass.js");
 const Question = require("../classes/QuestionClass.js");
 const Round = require("../classes/RoundClass.js");
 const FakeAnswer = require("../classes/FakeAnswerClass.js");
-const dbQuestion = require("../schemas/QuestionSchema.js")
+const QuestionSchema = require("../schemas/QuestionSchema.js");
 
 //mongodb connection
 const dbURIReadOnly = "mongodb+srv://Fib_User:Fib_Pass@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
@@ -38,11 +38,18 @@ let currentRoundNumber = 0;
 
 let playersSelectedCount = 0;
 
-let maxRounds = 3;
-
 let dbquestions;
 
+
+
+//Server Options
+let maxRounds = 3;
+
+questionCatagory = "standard_question"
+
+
 GetQuestions(); 
+
 
 function CreateRounds(howManyRounds) 
 {
@@ -55,26 +62,12 @@ function CreateRounds(howManyRounds)
 }
 
 
-
-function CreateQuestions(questionContent,questionAnswer) 
-{
-    
-}
-
-
 async function GetQuestions() 
 {
 
-    // let testquestion = new dbQuestion({
-    //     questionContent: "Test question",
-    //     questionAnswer: "Test answer"
-    // })
-
-    //testquestion.save()
+    dbQuestion = Mongoose.model(questionCatagory,QuestionSchema);
 
     dbquestions = await dbQuestion.find();
-
-
 
     questions = [];
 
@@ -157,6 +150,15 @@ io.on("connection", function(socket)
 
     })  
 
+    socket.on("updateSettings",function(settings) 
+    {
+        maxRounds = settings[0]
+        questionCatagory = settings[1]
+
+        GetQuestions();
+
+    })
+
 
     socket.on("gameStart", function()
     {
@@ -169,6 +171,8 @@ io.on("connection", function(socket)
         
         io.emit("gameStarted");
         console.log("Game Starting")
+        console.log("Rounds : " + maxRounds )
+        console.log("Question Catagory : " + questionCatagory )
     })
 
     socket.on("roundStart",function() 

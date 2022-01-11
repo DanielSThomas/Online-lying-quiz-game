@@ -1,6 +1,8 @@
 const Mongoose = require("../server/node_modules/mongoose");
 const Schema = Mongoose.Schema;
 
+
+
 const questionSchema = new Schema(
     {
         questionContent: 
@@ -13,8 +15,10 @@ const questionSchema = new Schema(
             type: String,
             required: true
         }
-    }, { id : true }
+    }, {id: true}
 )
 
-const dbQuestion = Mongoose.model("Question",questionSchema);
-module.exports = dbQuestion;
+
+//let dbQuestion = Mongoose.model(questionCatagory,questionSchema);
+
+module.exports =  questionSchema;
