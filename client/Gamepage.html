@@ -499,13 +499,6 @@
 
                 reorderedscores.reverse();
 
-                
-
-
-                // for (let index = 0; index < localregisteredUsers.length; index++) 
-                // {
-                //     if ()
-                // }
 
 
                 for (let index = 0; index < localregisteredUsers.length; index++) 
@@ -544,6 +537,12 @@
             {
                 let settings = [];
                 settings [0] = document.getElementById("maxroundinput").value;
+
+                if (settings[0] < 1 || settings[0] > 20)
+                {
+                    alert("Please enter a value between 1 and 20")
+                    return;
+                }
 
                 let catagorys = document.getElementsByName("questionselect");
                 let selectedcatagory ;

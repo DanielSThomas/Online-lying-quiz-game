@@ -10,7 +10,7 @@ const QuestionSchema = require("../schemas/QuestionSchema.js");
 const dbURIReadOnly = "mongodb+srv://Fib_User:Fib_Pass@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
 const dbURI = "mongodb+srv://Fib_Admin:Winter1@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
 const Mongoose = require("mongoose")
-Mongoose.connect(dbURI)
+Mongoose.connect(dbURIReadOnly)
 .then(()=>console.log("Connected to mongo database"))
 .catch((err) => console.log(err));
 
