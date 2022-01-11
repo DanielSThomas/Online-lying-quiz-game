@@ -5,6 +5,13 @@ const Question = require("../classes/QuestionClass.js");
 const Round = require("../classes/RoundClass.js");
 const FakeAnswer = require("../classes/FakeAnswerClass.js");
 
+//mongodb connection
+const dbURI = "mongodb+srv://Fib_User:Fib_Pass@fibtriviadb.flnrf.mongodb.net/FibTriviaDatabase?retryWrites=true&w=majority"
+const Mongoose = require("mongoose")
+Mongoose.connect(dbURI)
+.then(()=>console.log("Connected to mongo database"))
+.catch((err) => console.log(err))
+
 // Server setup
 let http = require("http").createServer();
 let port = 5600;
