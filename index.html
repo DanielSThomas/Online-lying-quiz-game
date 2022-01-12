@@ -40,8 +40,9 @@
 
             function SaveUserData()
             {
-                document.cookie = document.getElementById("username").value;
-                document.getElementById("displayname").innerText= ("Current Name : " + document.cookie);
+                
+                document.cookie = document.getElementById("username").value + "; expires=Mon; path=/";
+                document.getElementById("displayname").innerText= ("Current Name : " + document.cookie);     
                 
                 CheckJoin();
             }
