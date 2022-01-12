@@ -40,11 +40,10 @@ let playersSelectedCount = 0;
 let dbquestions;
 
 
-
 //Server Options
 let maxRounds = 3;
-
 questionCatagory = "opentdb_question"
+
 
 
 GetQuestions(); 

@@ -25,19 +25,16 @@
 
             button
             {
-                padding: 5px;
-                
+                padding: 5px;        
             }
 
             input
             {
-                padding: 5px;
-                
+                padding: 5px; 
             }
 
             .game-popup
-            {
-                
+            { 
                 margin: auto;
                 width: 90%;
                 height: 100%;
@@ -46,7 +43,6 @@
                 padding-bottom: 25px;
                 background-color: rgb(71, 72, 77);
                 text-align: center;
-               
             }
 
             .resultbox
@@ -81,7 +77,6 @@
                 border: 1px solid green; 
             }
 
-
             #gamebackground
             {
                 margin: auto;
@@ -108,15 +103,17 @@
                 background-color: #3e8e41;
             }
             
-
         </style>
 
 
 
         <script async defer>
           
-            
-            let localregisteredUsers = [];
+            //Client Global Vars
+
+            let socket = io("ws://81.155.71.176:25566") // Change this to the nodejs server ip.
+
+            let localregisteredUsers = []; 
 
             let localfakeAnswer;
 
@@ -126,13 +123,8 @@
 
             let localRoundInfo;
 
-
-            
-            let socket = io("ws://81.155.71.176:25566") // Change this to the nodejs server ip.
-
+            //Validate connection to the server
             socket.emit("registerUser",document.cookie);
-
-           
 
             socket.on("registerSuccess", function()
             {
@@ -146,14 +138,11 @@
             })
             
 
-
+            //Get the lastest copy of all connected users from the server
             socket.on("updateLocalRegisteredUsers", function(registeredUsers)
             { 
                  
-               
                 localregisteredUsers = registeredUsers;
-
-                
 
                 let playerlist = document.getElementById("playerlist")
 
@@ -168,14 +157,12 @@
                 }
 
                 CheckStart();
-
             }
             )
      
 
             socket.on("gameStarted",function()
             {
-                
                 closePopup("lobby")
 
                 if(document.cookie == localregisteredUsers[0].username)
@@ -183,8 +170,6 @@
                     socket.emit("roundStart");
                 }
 
-                
-                
             })
 
             socket.on("roundStarted",function()
@@ -195,13 +180,10 @@
 
             socket.on("getRoundInfo",function(roundInfo)
             {
-                localRoundInfo = roundInfo;
-
-               // DisplayRoundNoAndQuestion();
-   
+                localRoundInfo = roundInfo;              
             })
 
-        
+            //Get and create a list of all answers from the server
             socket.on("getAnswers",function(answers) 
             {
 
@@ -369,13 +351,8 @@
                 {
                     window.location.replace("../index.html");
                 }
-
-                
-
                 
             }) 
-
-
 
 
 
@@ -407,12 +384,7 @@
                     document.getElementById("gamestartbtn").disabled = true;
                     }
 
-                }
-                // if(localregisteredUsers.length > 1 && localregisteredUsers[0].username == document.cookie)
-                // {
-                    
-                // }
-                
+                }       
                 
             }
 
@@ -456,8 +428,6 @@
             }
 
             
-
-
             function SetFakeAnswer(fakeAnswer)
             {
                 localfakeAnswer = fakeAnswer;
@@ -569,9 +539,7 @@
             openPopup("errorpopup");
 
             CheckStart();
-
-            
-            
+  
         
         });
 
