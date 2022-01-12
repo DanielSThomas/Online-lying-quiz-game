@@ -207,7 +207,6 @@ io.on("connection", function(socket)
         {
             console.log("All rounds done, ending game");
             io.emit("gameEnded");
-            GetQuestions(); 
             return;
         }
         
