@@ -18,7 +18,4 @@ const questionSchema = new Schema(
     }, {id: true}
 )
 
-
-//let dbQuestion = Mongoose.model(questionCatagory,questionSchema);
-
 module.exports =  questionSchema;
