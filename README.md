@@ -1,2 +1,8 @@
-# Online-lying-quiz-game
-Full Stack Development project
+# Fib Trivia
+Full Stack Development Online-lying-quiz-game project.
+
+# Goals
+
+# Usage
+
+# Dependancies 
