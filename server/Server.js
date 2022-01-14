@@ -292,7 +292,7 @@ io.on("connection", function(socket)
                 {
                     registeredUsers[j].playerScore ++;
 
-                    rounds[currentRoundNumber].roundQuestion.correctPlayers.push(_owner); // check this works
+                    rounds[currentRoundNumber].roundQuestion.correctPlayers.push(_owner);
 
                     console.log(registeredUsers[j].username + " Just scored by getting the right answer. Total score is: " + registeredUsers[j].playerScore);
                 }
@@ -330,7 +330,7 @@ io.on("connection", function(socket)
                     console.log("user " + registeredUsers[index].username + " disconnected");  
                     registeredUsers[index].playerConnected = false;
 
-                   // disconnect the player
+                    //disconnect the player
                     registeredUsers.splice(index,1);
 
                     io.emit("updateLocalRegisteredUsers", (registeredUsers));
