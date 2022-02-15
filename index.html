@@ -18,6 +18,12 @@
                 background-color: rgb(47, 47, 53);
                 color: rgb(243, 243, 243);
             }
+
+            #Survey
+            {
+                text-align: right;
+            }
+
             #HomeMenu
             {
                 margin: auto;
@@ -95,6 +101,14 @@
 
     <body>
 
+    <div id= "Survey">
+
+        <form action="https://forms.gle/pm9Jef8jUErN5eyr5">
+            <input type="submit" id="surveybtn" value="Go to survey"/>
+        </form>
+    
+    </div>
+
     <div id = "HomeMenu">
 
         <h1>Fib Trivia</h1>
@@ -127,15 +141,13 @@
 
     <div class="game-popup" id="rules01">
             
-        <h3> The goal of the game is to earn points by creating a fake answer to a question in order to trick other players, while also guessing the correct answer.</h3>
+        <h3> The goal of the game is to earn points by creating fake answers to questions, in order to trick other players, while also guessing the correct answer.</h3>
 
-        <h3> - Each round, all players get the same question.</h3>
-
-        <h3> - Players should come up with a fake but believable answer to the question. </h3>
+        <h3> Each round, all players will get the same question. Players should come up with a fake, but believable, answer to the question.</h3>
 
         <img src="./images/Example01.PNG" width="1000" height="180"> </img>
 
-        <h4> (The goal is not to provide the correct answer yet) </h4>
+        <h4> (The goal is not to guess the correct answer yet) </h4>
 
         
         
@@ -145,20 +157,22 @@
 
     <div class="game-popup" id="rules02">
             
-        <h3> - Afterwards all fake answers will be mixed in with the correct answer. </h3>
+        <h3> Next all fake answers will be mixed in with the correct answer. </h3>
 
         <img src="./images/Example02.PNG" width="1000" height="300"> </img>
 
-        <h3> - Players who guess correctly gain points. </h3>
+        <h3> Players who guess the correct answer gain points. </h3>
 
-        <h3> - However players also gain points if another player guesses thier fake answer. </h3>
+        <h3> However, players will also gain points if another player guesses their fake answer. </h3>
 
         <img src="./images/Example03.PNG" width="1000" height="700"> </img>
 
-        <h3> - The player with the most points at the end of the game wins. </h3>
+        <h3> The player with the most points at the end of the game wins. </h3>
     
         <button onclick="closePopup('rules02')" id="closerulesbtn"> Close </button>
     </div>
+
+    
 
     </body>
 </html>
