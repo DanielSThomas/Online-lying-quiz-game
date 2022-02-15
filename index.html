@@ -25,6 +25,28 @@
                 text-align: center;
                 padding: 5px;
             }
+
+            button
+            {
+                padding: 5px;        
+            }
+
+            input
+            {
+                padding: 5px; 
+            }
+            
+            .game-popup
+            { 
+                margin: auto;
+                width: 90%;
+                height: 100%;
+                display: none;
+                padding: 5px;
+                padding-bottom: 25px;
+                background-color: rgb(71, 72, 77);
+                text-align: center;
+            }
         </style>
 
         <script async defer>
@@ -45,6 +67,16 @@
                 document.getElementById("displayname").innerText= ("Current Name : " + document.cookie);     
                 
                 CheckJoin();
+            }
+
+            function openPopup(popupid)
+            {
+                document.getElementById(popupid).style.display = "block"
+            }
+
+            function closePopup(popupid)
+            {
+                document.getElementById(popupid).style.display = "none"
             }
             
 
@@ -83,6 +115,50 @@
             </form>
             
         </div>
+
+        <div>    
+            <h1></h1> 
+            
+            <button id = "openrulebtn" onclick="openPopup('rules01'); closePopup('rules02');"> Show Rules </button>
+
+        </div>
+
     </div>
+
+    <div class="game-popup" id="rules01">
+            
+        <h3> The goal of the game is to earn points by creating a fake answer to a question in order to trick other players, while also guessing the correct answer.</h3>
+
+        <h3> - Each round, all players get the same question.</h3>
+
+        <h3> - Players should come up with a fake but believable answer to the question. </h3>
+
+        <img src="./images/Example01.PNG" width="1000" height="180"> </img>
+
+        <h4> (The goal is not to provide the correct answer yet) </h4>
+
+        
+        
+
+        <button id = "openrule2btn" onclick="openPopup('rules02'); closePopup('rules01');"> Next </button>
+    </div>
+
+    <div class="game-popup" id="rules02">
+            
+        <h3> - Afterwards all fake answers will be mixed in with the correct answer. </h3>
+
+        <img src="./images/Example02.PNG" width="1000" height="300"> </img>
+
+        <h3> - Players who guess correctly gain points. </h3>
+
+        <h3> - However players also gain points if another player guesses thier fake answer. </h3>
+
+        <img src="./images/Example03.PNG" width="1000" height="700"> </img>
+
+        <h3> - The player with the most points at the end of the game wins. </h3>
+    
+        <button onclick="closePopup('rules02')" id="closerulesbtn"> Close </button>
+    </div>
+
     </body>
 </html>
