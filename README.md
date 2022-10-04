@@ -25,9 +25,9 @@ The second stage is players finding the real answer added to the list of fake us
 # Architecture
 The architecture of the system is a client to server type design. Multiple web clients communicate with the node.js server which in turn fetches data from the database. The system operates mostly through communication between the client and server. Most functions are started from the client, usually from user input. The client will emit these inputs to the server which will often capture the input and broadcast it to the other clients.
 
-![Capture01](https://user-images.githubusercontent.com/38397169/193794783-35bafd43-70b0-425f-ac16-857c7a129685.PNG)
-
 ![Capture02](https://user-images.githubusercontent.com/38397169/193795162-a98ab2b3-48c9-4e3f-a01b-dc9f1223cf29.PNG)
+
+![Capture01](https://user-images.githubusercontent.com/38397169/193794783-35bafd43-70b0-425f-ac16-857c7a129685.PNG)
 
 ![Capture03](https://user-images.githubusercontent.com/38397169/193795362-995c304c-12f2-4733-8d69-b8449a150668.PNG)
 
