@@ -12,7 +12,10 @@ Node.js
 - For online hosting foward ports 25565 - 25566 or change ports within client/Gamepage.html and server/Server.js
 
 # Project Aims
-To create a multiplayer trivia quiz game in where players complete with each other by scoring points throughout multiple rounds. These rounds feature several key stages. 
+The aim was to create a website that updates dynamicly, without the need for refreshing, based on the actions of other users on the site.
+To achieve this aim a multiplayer trivia quiz game was chossen as the project in where users complete with each other by scoring points throughout multiple rounds.
+
+Each round is split up into 2 stages:
 The first stage is players provide a “fake answer” to a provided question, taken from the database, in an attempt to create a believable answer to trick other players. 
 ![Example01](https://user-images.githubusercontent.com/38397169/193795567-e715eef0-5b3f-47d9-8d2d-0ec12997c76f.PNG)
 
