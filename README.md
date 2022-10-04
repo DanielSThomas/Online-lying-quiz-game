@@ -38,3 +38,6 @@ The architecture of the system is a client to server type design. Multiple web c
 - Connecting and reading information from an external database
 - Handleing logic between clients and a server
 - Using OOP within javascript
+
+# Video Demo and Overview
+https://www.youtube.com/watch?v=vxujUvcHNEk
