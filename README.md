@@ -16,12 +16,14 @@ The aim was to create a website that updates dynamically, without the need for r
 To achieve this aim a multiplayer trivia game was chosen as the project, where users complete with each other by scoring points throughout multiple rounds.
 
 Each round is split up into 3 stages:
-![Example01](https://user-images.githubusercontent.com/38397169/193795567-e715eef0-5b3f-47d9-8d2d-0ec12997c76f.PNG)
 - 1 Users provide a “fake answer” to the question in an attempt to create a believable answer to trick other players. 
 
-![Example02](https://user-images.githubusercontent.com/38397169/193795589-eefd9a1b-20f4-4ae6-8783-475b34f66a55.PNG)
+![Example01](https://user-images.githubusercontent.com/38397169/193795567-e715eef0-5b3f-47d9-8d2d-0ec12997c76f.PNG)
+
+
 - 2 Users must now find the real answer hidden within a list of fake user-provided answers.
 
+![Example02](https://user-images.githubusercontent.com/38397169/193795589-eefd9a1b-20f4-4ae6-8783-475b34f66a55.PNG)
 
 - 3 Users score points by guessing the correct answer as well as points for any users that fell for the "fake answer" they provided in stage 1.
 
